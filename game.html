@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors - Game</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/multiplayer.css">
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>Rock Paper Scissors</h1>
+            <div class="room-info">
+                <p>Room: <span id="roomId"></span></p>
+                <p>Status: <span id="gameStatus">Waiting for opponent...</span></p>
+                <p class="game-mode">Best of 5 - First to 3 wins!</p>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="player-area">
+                <h2>Your Choice</h2>
+                <div class="choices">
+                    <button class="choice-btn" data-choice="rock">
+                        <img src="images/game/rock.png" alt="Rock" class="choice-img">
+                    </button>
+                    <button class="choice-btn" data-choice="paper">
+                        <img src="images/game/paper.png" alt="Paper" class="choice-img">
+                    </button>
+                    <button class="choice-btn" data-choice="scissors">
+                        <img src="images/game/scissors.png" alt="Scissors" class="choice-img">
+                    </button>
+                </div>
+                <div class="player-choice" id="playerChoice">
+                    <img src="images/game/questionmark.png" alt="?" class="choice-img">
+                </div>
+            </div>
+
+            <div class="vs-area">
+                <div class="vs">VS</div>
+                <div class="round-info">
+                    <p>Round: <span id="currentRound">1</span></p>
+                    <p>Score: <span id="playerScore">0</span> - <span id="opponentScore">0</span></p>
+                    <p class="wins-needed">Wins needed: <span id="winsNeeded">3</span></p>
+                </div>
+            </div>
+
+            <div class="opponent-area">
+                <h2>Opponent's Choice</h2>
+                <div class="opponent-choice" id="opponentChoice">
+                    <img src="images/game/questionmark.png" alt="?" class="choice-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="game-result" id="gameResult">
+            <h2>Round Result</h2>
+            <p id="roundResult">Waiting for choices...</p>
+        </div>
+        <div id="resultPrompt" class="result-prompt"></div>
+
+        <div class="game-controls">
+            <button id="newRoundBtn" class="button" disabled>New Round</button>
+            <button id="leaveGameBtn" class="button">Leave Game</button>
+        </div>
+    </div>
+    <script src="js/game.js"></script>
+</body>
+</html> 

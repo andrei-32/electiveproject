@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors - Multiplayer</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/multiplayer.css">
+</head>
+<body>
+    <div class="auth-container">
+        <a href="game_selection.html" class="back-btn">Back</a>
+        <div class="auth-header">
+            <h1>Rock Paper Scissors</h1>
+            <p>Do you have a dispute with your friend?</p>
+            <p>Resolve it online!</p>
+        </div>
+        <div class="room-controls">
+            <div class="room-section">
+                <p>Press "Create Room" to play with a friend.</p>
+                <p>Send them the link to connect.</p>
+                <button id="createRoomBtn" class="button">Create Room</button>
+            </div>
+        </div>
+        <div class="room-info" style="display:none;">
+            <h3>Room Information</h3>
+            <p>Share this link with your friend:</p>
+            <div class="room-link-container">
+                <input type="text" id="roomLink" readonly>
+                <button id="copyLinkBtn" class="button">Copy Link</button>
+            </div>
+            <p class="waiting-message">Waiting for opponent to join...</p>
+        </div>
+    </div>
+    <script src="js/multiplayer.js"></script>
+</body>
+</html> 

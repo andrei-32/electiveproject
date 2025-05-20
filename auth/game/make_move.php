@@ -1,0 +1,96 @@
+<?php
+session_start();
+require_once '../user/config.php';
+
+header('Content-Type: application/json');
+
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'message' => 'Please log in first']);
+    exit;
+}
+
+// Get POST data
+$data = json_decode(file_get_contents('php://input'), true);
+$room_id = $data['room_id'] ?? null;
+$choice = $data['choice'] ?? null;
+
+if (!$room_id || !$choice) {
+    echo json_encode(['success' => false, 'message' => 'Missing required data']);
+    exit;
+}
+
+try {
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Check if room exists and user is a player
+    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE room_id = ? AND (player1_id = ? OR player2_id = ?)");
+    $stmt->execute([$room_id, $_SESSION['user_id'], $_SESSION['user_id']]);
+    $room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$room) {
+        echo json_encode(['success' => false, 'message' => 'Room not found or you are not a player']);
+        exit;
+    }
+
+    // Determine if user is player1 or player2
+    $is_player1 = $room['player1_id'] == $_SESSION['user_id'];
+    $player_field = $is_player1 ? 'player1_choice' : 'player2_choice';
+
+    // Update player's choice
+    $stmt = $pdo->prepare("UPDATE rooms SET $player_field = ? WHERE room_id = ?");
+    $stmt->execute([$choice, $room_id]);
+
+    // Check if both players have made their choices
+    $stmt = $pdo->prepare("SELECT player1_choice, player2_choice FROM rooms WHERE room_id = ?");
+    $stmt->execute([$room_id]);
+    $moves = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!empty($moves['player1_choice']) && !empty($moves['player2_choice'])) {
+        // Both players have made their choices, determine winner
+        $winner = determineWinner($moves['player1_choice'], $moves['player2_choice']);
+
+        // Update scores and mark round as complete
+        if ($winner === 'player1') {
+            $stmt = $pdo->prepare("UPDATE rooms SET player1_score = player1_score + 1, round_complete = TRUE WHERE room_id = ?");
+        } elseif ($winner === 'player2') {
+            $stmt = $pdo->prepare("UPDATE rooms SET player2_score = player2_score + 1, round_complete = TRUE WHERE room_id = ?");
+        } else {
+            $stmt = $pdo->prepare("UPDATE rooms SET round_complete = TRUE WHERE room_id = ?");
+        }
+        $stmt->execute([$room_id]);
+    }
+
+    echo json_encode(['success' => true]);
+
+} catch (PDOException $e) {
+    error_log("Database error in make_move.php: " . $e->getMessage());
+    echo json_encode([
+        'success' => false,
+        'message' => 'Database error: ' . $e->getMessage()
+    ]);
+} catch (Exception $e) {
+    error_log("Error in make_move.php: " . $e->getMessage());
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Error: ' . $e->getMessage()
+    ]);
+}
+
+function determineWinner($player1, $player2) {
+    if ($player1 === $player2) return 'tie';
+    
+    $winning_combos = [
+        'rock' => 'scissors',
+        'paper' => 'rock',
+        'scissors' => 'paper'
+    ];
+    
+    return $winning_combos[$player1] === $player2 ? 'player1' : 'player2';
+}
+?> 
