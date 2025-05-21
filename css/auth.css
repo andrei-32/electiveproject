@@ -48,13 +48,15 @@ body::before {
 
 .auth-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 18px;
 }
 
 .auth-header h1 {
     color: var(--primary-red);
-    font-size: 2em;
-    margin-bottom: 10px;
+    font-size: 2.2em;
+    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 .auth-header p {
@@ -111,9 +113,13 @@ button:hover {
 
 .switch-form {
     text-align: center;
-    margin-top: 20px;
-    padding-top: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
     border-top: 1px solid var(--light-gray);
+}
+
+.switch-form .button {
+    margin-bottom: 8px;
 }
 
 .switch-form a {
@@ -160,6 +166,18 @@ button:hover {
     display: inline-block;
 }
 
+/* Style for the main prompt on login page */
+.login-main-prompt {
+    color: var(--primary-red);
+    font-size: 1.35em;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 18px;
+    margin-top: 0;
+    line-height: 1.25;
+    letter-spacing: 0.5px;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
     .auth-container {
@@ -188,7 +206,7 @@ button:hover {
 
 .login-left {
     flex: 1 1 0;
-    padding: 48px 40px 40px 40px;
+    padding: 36px 32px 32px 32px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -243,10 +261,16 @@ button:hover {
     .login-left, .login-right {
         min-width: 0;
         width: 100%;
-        padding: 32px 12px;
+        padding: 18px 4vw;
     }
     .login-right-content {
         padding: 0 10px;
+    }
+    .auth-header h1 {
+        font-size: 1.3em;
+    }
+    .login-main-prompt {
+        font-size: 1em;
     }
 }
 
