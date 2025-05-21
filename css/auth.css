@@ -293,6 +293,5 @@ button:hover {
 }
 
 .gs-logout-btn-small {
-    bottom: 20px; /* Moves the button 20px above the bottom */
-    /* ...other styles... */
+    bottom: 30px;
 } 
