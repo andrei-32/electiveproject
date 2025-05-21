@@ -309,4 +309,116 @@
         width: 44px;
         height: 44px;
     }
+}
+
+/* Make card fill the whole page */
+.gs-card.gs-card-full {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.gs-content {
+    height: 100%;
+    padding: 0 8vw 0 18vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.gs-main-row {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+}
+.gs-main-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    flex: 0 0 320px;
+}
+.gs-logo-img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(255, 75, 75, 0.10);
+}
+.gs-logout-btn-top {
+    position: absolute;
+    top: 32px;
+    right: 48px;
+    background: #FFD93D;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 32px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
+    transition: background 0.2s, color 0.2s;
+}
+.gs-logout-btn-top:hover {
+    background: #FF4B4B;
+    color: #FFD93D;
+}
+/* Remove old square styles */
+.gs-square, .gs-square-inner, .gs-logout-btn { display: none !important; }
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+    .gs-content {
+        padding: 0 2vw 0 2vw;
+    }
+    .gs-main-row {
+        gap: 24px;
+    }
+    .gs-main-left {
+        flex: 0 0 120px;
+    }
+    .gs-logo-img {
+        width: 100px;
+        height: 100px;
+    }
+}
+@media (max-width: 800px) {
+    .gs-main-row {
+        flex-direction: column;
+        gap: 18px;
+    }
+    .gs-content {
+        padding: 0 2vw;
+    }
+    .gs-logo-img {
+        width: 80px;
+        height: 80px;
+    }
+}
+@media (max-width: 600px) {
+    .gs-card.gs-card-full {
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .gs-logo-img {
+        width: 60px;
+        height: 60px;
+    }
+    .gs-logout-btn-top {
+        top: 12px;
+        right: 12px;
+        padding: 8px 18px;
+        font-size: 1em;
+    }
 } 
