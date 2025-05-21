@@ -34,9 +34,33 @@ try {
         throw new Exception("Failed to insert room into database");
     }
 
+    // Get player1's username
+    $stmt = $pdo->prepare("SELECT username FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $player1 = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Trigger Pusher event for room creation
+    $pusher->trigger("game-room-{$room_id}", 'room-created', [
+        'room_id' => $room_id,
+        'player1_username' => $player1['username'],
+        'status' => 'waiting',
+        'message' => 'Waiting for opponent to join...'
+    ]);
+
+    // Also trigger initial game state
+    $pusher->trigger("game-room-{$room_id}", 'game-state-update', [
+        'status' => 'waiting',
+        'player1_username' => $player1['username'],
+        'player1_score' => 0,
+        'player2_score' => 0,
+        'round' => 1,
+        'message' => 'Waiting for opponent to join...'
+    ]);
+
     echo json_encode([
         'success' => true,
-        'room_id' => $room_id
+        'room_id' => $room_id,
+        'username' => $player1['username']
     ]);
 
 } catch (PDOException $e) {

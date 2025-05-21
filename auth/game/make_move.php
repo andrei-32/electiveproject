@@ -41,10 +41,22 @@ try {
     // Determine if user is player1 or player2
     $is_player1 = $room['player1_id'] == $_SESSION['user_id'];
     $player_field = $is_player1 ? 'player1_choice' : 'player2_choice';
+    $opponent_field = $is_player1 ? 'player2_choice' : 'player1_choice';
 
     // Update player's choice
     $stmt = $pdo->prepare("UPDATE rooms SET $player_field = ? WHERE room_id = ?");
     $stmt->execute([$choice, $room_id]);
+
+    // Get opponent's username
+    $stmt = $pdo->prepare("SELECT username FROM users WHERE id = ?");
+    $stmt->execute([$is_player1 ? $room['player2_id'] : $room['player1_id']]);
+    $opponent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Trigger Pusher event for opponent's move
+    $pusher->trigger("game-room-{$room_id}", 'opponent-move', [
+        'choice' => $choice,
+        'username' => $_SESSION['username']
+    ]);
 
     // Check if both players have made their choices
     $stmt = $pdo->prepare("SELECT player1_choice, player2_choice FROM rooms WHERE room_id = ?");
@@ -64,6 +76,22 @@ try {
             $stmt = $pdo->prepare("UPDATE rooms SET round_complete = TRUE WHERE room_id = ?");
         }
         $stmt->execute([$room_id]);
+
+        // Get updated game state
+        $stmt = $pdo->prepare("SELECT * FROM rooms WHERE room_id = ?");
+        $stmt->execute([$room_id]);
+        $gameState = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Trigger Pusher event for game state update
+        $pusher->trigger("game-room-{$room_id}", 'game-state-update', [
+            'player1_score' => $gameState['player1_score'],
+            'player2_score' => $gameState['player2_score'],
+            'round' => $gameState['round'] ?? 1,
+            'status' => $gameState['status'],
+            'winner' => $winner,
+            'player1_choice' => $gameState['player1_choice'],
+            'player2_choice' => $gameState['player2_choice']
+        ]);
     }
 
     echo json_encode(['success' => true]);
@@ -77,7 +105,7 @@ try {
 } catch (Exception $e) {
     error_log("Error in make_move.php: " . $e->getMessage());
     echo json_encode([
-        'success' => false, 
+        'success' => false,
         'message' => 'Error: ' . $e->getMessage()
     ]);
 }

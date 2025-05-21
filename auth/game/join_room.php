@@ -39,9 +39,37 @@ try {
         exit;
     }
 
+    // Get player1's username for the notification
+    $stmt = $pdo->prepare("SELECT username FROM users WHERE id = ?");
+    $stmt->execute([$room['player1_id']]);
+    $player1 = $stmt->fetch(PDO::FETCH_ASSOC);
+
     // Update room with player2
     $stmt = $pdo->prepare("UPDATE rooms SET player2_id = ?, status = 'playing' WHERE room_id = ?");
     $stmt->execute([$_SESSION['user_id'], $room_id]);
+
+    // Get player2's username
+    $stmt = $pdo->prepare("SELECT username FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $player2 = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Trigger Pusher event for opponent joined
+    $pusher->trigger("game-room-{$room_id}", 'opponent-joined', [
+        'username' => $_SESSION['username'],
+        'player1_username' => $player1['username'],
+        'player2_username' => $player2['username'],
+        'status' => 'playing'
+    ]);
+
+    // Trigger game state update
+    $pusher->trigger("game-room-{$room_id}", 'game-state-update', [
+        'status' => 'playing',
+        'player1_username' => $player1['username'],
+        'player2_username' => $player2['username'],
+        'player1_score' => 0,
+        'player2_score' => 0,
+        'round' => 1
+    ]);
 
     echo json_encode(['success' => true]);
 
