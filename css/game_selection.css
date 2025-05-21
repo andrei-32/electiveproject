@@ -450,14 +450,13 @@
     color: #fff;
     border: none;
     border-radius: 8px;
-    padding: 8px 22px;
-    font-size: 1em;
+    padding: 12px 36px;
+    font-size: 1.1em;
     font-weight: 700;
     cursor: pointer;
     z-index: 20;
     box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
     transition: background 0.2s, color 0.2s;
-    margin-top: 32px;
 }
 .gs-logout-btn-small:hover {
     background: #FFD93D;
@@ -483,9 +482,8 @@
     .gs-logout-btn-small {
         bottom: 12px;
         right: 12px;
-        padding: 6px 12px;
-        font-size: 0.95em;
-        margin-top: 18px;
+        padding: 8px 18px;
+        font-size: 1em;
     }
     .login-right-content h2 {
         font-size: 1.2em;
