@@ -8,17 +8,35 @@
     <link rel="stylesheet" href="css/game_selection.css">
 </head>
 <body>
-    <div class="auth-container">
-        <button class="logout-btn" onclick="window.location.href='auth/user/logout.php'">Logout</button>
-        <div class="auth-header">
-            <h1>Rock Paper Scissors</h1>
-            <p>Play against other players online</p>
-        </div>
-        <div class="game-options">
-            <div class="game-option">
-                <h2>Multiplayer</h2>
-                <p>Create a room and invite friends to play</p>
-                <a href="multiplayer.html" class="button">Play Multiplayer</a>
+    <div class="gs-bg">
+        <div class="gs-card">
+            <div class="gs-accent"></div>
+            <div class="gs-content">
+                <div class="gs-header-row">
+                    <div class="gs-logo">RPS <span>BULSU</span></div>
+                    <nav class="gs-nav">
+                        <a class="active" href="#">Home</a>
+                        <a href="#">Multiplayer</a>
+                        <a href="#">Profile</a>
+                    </nav>
+                </div>
+                <div class="gs-main-row">
+                    <div class="gs-main-left">
+                        <div class="gs-square">
+                            <div class="gs-square-inner"></div>
+                        </div>
+                    </div>
+                    <div class="gs-main-right">
+                        <h1 class="gs-title">Rock Paper Scissors</h1>
+                        <p class="gs-desc">Play against other players online</p>
+                        <div class="gs-option-card">
+                            <h2>Multiplayer</h2>
+                            <p>Create a room and invite friends to play</p>
+                            <a href="multiplayer.html" class="gs-btn-main">Play Multiplayer</a>
+                        </div>
+                        <button class="gs-logout-btn" onclick="window.location.href='auth/user/logout.php'">Logout</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
