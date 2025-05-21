@@ -179,12 +179,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show/hide appropriate buttons based on game state
         if (gameState.gameComplete) {
             newRoundBtn.style.display = 'none';
+            newRoundBtn.disabled = true;
             rematchBtn.style.display = '';
             rematchBtn.disabled = rematchRequested;
             rematchBtn.textContent = opponentRematchRequested ? 'Opponent wants a rematch!' : (rematchRequested ? 'Waiting for opponent...' : 'Rematch');
-        } else {
+        } else if (gameState.roundComplete) {
+            newRoundBtn.style.display = '';
+            newRoundBtn.disabled = false;
             rematchBtn.style.display = 'none';
-            newRoundBtn.style.display = gameState.roundComplete ? '' : 'none';
+        } else {
+            newRoundBtn.style.display = 'none';
+            newRoundBtn.disabled = true;
+            rematchBtn.style.display = 'none';
         }
 
         // Update status and result messages
