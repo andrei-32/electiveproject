@@ -158,4 +158,110 @@ button:hover {
     .auth-header h1 {
         font-size: 1.8em;
     }
+}
+
+/* --- SPLIT LOGIN PAGE STYLES --- */
+.login-split-container {
+    display: flex;
+    width: 900px;
+    max-width: 98vw;
+    min-height: 540px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(255, 75, 75, 0.10), 0 1.5px 8px rgba(255, 217, 61, 0.10);
+    overflow: hidden;
+}
+
+.login-left {
+    flex: 1 1 0;
+    padding: 48px 40px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--white);
+}
+
+.login-right {
+    flex: 1 1 0;
+    position: relative;
+    background: url('../img/login-bg.jpg') center center/cover no-repeat;
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+}
+
+.login-right-overlay {
+    background: linear-gradient(120deg, rgba(255,75,75,0.85) 60%, rgba(255,217,61,0.7) 100%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-right-content {
+    color: var(--white);
+    text-align: center;
+    padding: 0 32px;
+    width: 100%;
+}
+
+.infinity-logo {
+    color: var(--yellow);
+    font-size: 1.3em;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+.infinity-logo-large {
+    color: var(--yellow);
+    font-size: 3.5em;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.login-right-content h2 {
+    font-size: 2.2em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+}
+
+.login-right-content p {
+    font-size: 1.1em;
+    opacity: 0.95;
+    line-height: 1.5;
+}
+
+/* Responsive for mobile */
+@media (max-width: 900px) {
+    .login-split-container {
+        flex-direction: column;
+        width: 98vw;
+        min-height: 0;
+    }
+    .login-left, .login-right {
+        min-width: 0;
+        width: 100%;
+        padding: 32px 12px;
+    }
+    .login-right-content {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .login-split-container {
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .login-left, .login-right {
+        padding: 18px 2vw;
+    }
+    .login-right-content h2 {
+        font-size: 1.3em;
+    }
+    .infinity-logo-large {
+        font-size: 2em;
+    }
 } 

@@ -7,25 +7,36 @@
     <link rel="stylesheet" href="../css/auth.css">
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-header">
-            <h1>Welcome Back!</h1>
-            <p>Login to play Rock Paper Scissors</p>
+    <div class="login-split-container">
+        <div class="login-left">
+            <div class="auth-header">
+                <h1><span class="infinity-logo">&#8734;</span> INFINITY</h1>
+                <p>Log in to get the moment updates on the things that interest you.</p>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+            <div class="switch-form">
+                <p>Don't have an account? <a href="register.html">Sign Up Now</a></p>
+            </div>
         </div>
-        <div class="error-message" id="errorMessage"></div>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+        <div class="login-right">
+            <div class="login-right-overlay">
+                <div class="login-right-content">
+                    <span class="infinity-logo-large">&#8734;</span>
+                    <h2>INFINITY</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec neque tortor. Proin efficitur leo vel ex aliquam ullamcorper aenean ut pretium ligula.</p>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <div class="switch-form">
-            <p>Don't have an account? <a href="register.html">Register</a></p>
         </div>
     </div>
     <script src="../js/auth.js"></script>
