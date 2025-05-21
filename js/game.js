@@ -225,6 +225,8 @@ document.addEventListener('DOMContentLoaded', () => {
             roundResult.textContent = 'Choose rock, paper, or scissors';
             showResultPrompt('');
         }
+
+        console.log('gameState:', gameState);
     }
 
     function updateChoiceDisplay(element, choice, isOpponent = false) {
