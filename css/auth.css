@@ -206,20 +206,6 @@ button:hover {
     width: 100%;
 }
 
-.infinity-logo {
-    color: var(--yellow);
-    font-size: 1.3em;
-    vertical-align: middle;
-    margin-right: 6px;
-}
-
-.infinity-logo-large {
-    color: var(--yellow);
-    font-size: 3.5em;
-    display: block;
-    margin-bottom: 12px;
-}
-
 .login-right-content h2 {
     font-size: 2.2em;
     font-weight: 700;
@@ -260,8 +246,5 @@ button:hover {
     }
     .login-right-content h2 {
         font-size: 1.3em;
-    }
-    .infinity-logo-large {
-        font-size: 2em;
     }
 } 
