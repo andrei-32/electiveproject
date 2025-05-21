@@ -457,20 +457,37 @@
     z-index: 20;
     box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
     transition: background 0.2s, color 0.2s;
+    margin-top: 32px;
 }
 .gs-logout-btn-small:hover {
-    background: #FF4B4B;
-    color: #FFD93D;
+    background: #FFD93D;
+    color: #fff;
+    opacity: 0.85;
+}
+.login-right-content h2 {
+    margin-bottom: 10px;
+    font-size: 2.2em;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.login-right-content p {
+    margin-bottom: 28px;
+    font-size: 1.1em;
+    color: #fff;
+    opacity: 0.95;
+}
+.gs-option-card {
+    margin-bottom: 38px !important;
 }
 @media (max-width: 900px) {
-    .gs-logo-img.no-bg {
-        width: 100px;
-        height: 100px;
-    }
     .gs-logout-btn-small {
         bottom: 12px;
         right: 12px;
         padding: 6px 12px;
         font-size: 0.95em;
+        margin-top: 18px;
+    }
+    .login-right-content h2 {
+        font-size: 1.2em;
     }
 } 
