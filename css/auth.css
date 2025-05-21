@@ -15,13 +15,23 @@
 }
 
 body {
-    background-color: var(--white);
+    background: url('../img/bg-main.jpg') center center/cover no-repeat fixed;
     color: var(--dark-gray);
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,75,75,0.18); /* subtle red overlay for contrast */
+    z-index: 0;
+    pointer-events: none;
 }
 
 .auth-container {
@@ -32,6 +42,8 @@ body {
     width: 100%;
     max-width: 400px;
     margin: 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .auth-header {
@@ -170,6 +182,8 @@ button:hover {
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(255, 75, 75, 0.10), 0 1.5px 8px rgba(255, 217, 61, 0.10);
     overflow: hidden;
+    position: relative;
+    z-index: 1;
 }
 
 .login-left {
