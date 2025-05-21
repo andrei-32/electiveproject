@@ -43,6 +43,18 @@ try {
     $player_field = $is_player1 ? 'player1_choice' : 'player2_choice';
     $opponent_field = $is_player1 ? 'player2_choice' : 'player1_choice';
 
+    // Check if player has already made a choice
+    if (!empty($room[$player_field])) {
+        echo json_encode(['success' => false, 'message' => 'You have already made your choice for this round']);
+        exit;
+    }
+
+    // Check if round is already complete
+    if ($room['round_complete']) {
+        echo json_encode(['success' => false, 'message' => 'This round is already complete']);
+        exit;
+    }
+
     // Update player's choice
     $stmt = $pdo->prepare("UPDATE rooms SET $player_field = ? WHERE room_id = ?");
     $stmt->execute([$choice, $room_id]);

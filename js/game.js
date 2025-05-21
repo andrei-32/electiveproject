@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Functions
     function makeChoice(choice) {
-        if (gameState.roundComplete || gameState.gameComplete) return;
+        if (gameState.roundComplete || gameState.gameComplete || gameState.playerChoice) return;
 
         fetch('auth/game/make_move.php', {
             method: 'POST',
@@ -86,6 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             if (data.success) {
                 gameState.playerChoice = choice;
+                // Disable all choice buttons after making a choice
+                choiceButtons.forEach(button => {
+                    button.disabled = true;
+                    if (button.dataset.choice === choice) {
+                        button.classList.add('selected');
+                    } else {
+                        button.classList.remove('selected');
+                    }
+                });
                 updateGameState();
                 // Immediately check game state after making a choice
                 checkGameState();
@@ -150,8 +159,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update buttons
         choiceButtons.forEach(button => {
-            button.disabled = gameState.roundComplete || gameState.gameComplete;
-            if (gameState.roundComplete || gameState.gameComplete) {
+            // Disable buttons if:
+            // 1. Round is complete
+            // 2. Game is complete
+            // 3. Player has already made a choice
+            const shouldDisable = gameState.roundComplete || 
+                                gameState.gameComplete || 
+                                gameState.playerChoice !== null;
+            
+            button.disabled = shouldDisable;
+            
+            if (shouldDisable) {
                 button.classList.remove('selected');
             } else {
                 button.classList.toggle('selected', button.dataset.choice === gameState.playerChoice);

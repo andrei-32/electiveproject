@@ -130,15 +130,29 @@ h1, .game-header h1 {
     object-fit: contain;
 }
 
-.choice-btn:hover {
-    transform: scale(1.1);
-    border-color: var(--primary-red);
-    background: var(--primary-yellow);
+.choice-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    border-color: var(--light-gray);
+    background: var(--white);
+}
+
+.choice-btn:disabled:hover {
+    transform: none;
+    border-color: var(--light-gray);
+    background: var(--white);
 }
 
 .choice-btn.selected {
     background: var(--primary-red);
-    color: var(--white);
+    border-color: var(--primary-yellow);
+    transform: scale(1.1);
+}
+
+.choice-btn.selected:disabled {
+    opacity: 1;
+    background: var(--primary-red);
     border-color: var(--primary-yellow);
 }
 
