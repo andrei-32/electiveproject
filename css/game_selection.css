@@ -433,4 +433,44 @@
         padding: 8px 18px;
         font-size: 1em;
     }
+}
+
+.gs-logo-img.no-bg {
+    background: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    width: 180px;
+    height: 180px;
+}
+.gs-logout-btn-small {
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
+    background: #FFD93D;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 22px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
+    transition: background 0.2s, color 0.2s;
+}
+.gs-logout-btn-small:hover {
+    background: #FF4B4B;
+    color: #FFD93D;
+}
+@media (max-width: 900px) {
+    .gs-logo-img.no-bg {
+        width: 100px;
+        height: 100px;
+    }
+    .gs-logout-btn-small {
+        bottom: 12px;
+        right: 12px;
+        padding: 6px 12px;
+        font-size: 0.95em;
+    }
 } 
