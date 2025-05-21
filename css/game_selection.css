@@ -75,7 +75,7 @@
 
 .gs-card {
     background: #fff;
-    border-radius: 12px;
+    border-radius: 18px;
     box-shadow: 0 8px 32px rgba(255, 75, 75, 0.18), 0 1.5px 8px rgba(255, 217, 61, 0.10);
     position: relative;
     width: 950px;
@@ -84,6 +84,7 @@
     display: flex;
     flex-direction: column;
     overflow: visible;
+    margin: 48px 0;
 }
 
 .gs-accent {
@@ -97,6 +98,7 @@
     z-index: 1;
     box-shadow: 0 8px 32px rgba(255, 75, 75, 0.10);
     transform: rotate(-18deg);
+    opacity: 0.95;
 }
 
 .gs-content {
@@ -111,45 +113,29 @@
 .gs-header-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: 18px;
+    padding-left: 12px;
 }
 
 .gs-logo {
-    font-size: 2.1em;
-    font-weight: 700;
+    font-size: 2.3em;
+    font-weight: 800;
     color: #fff;
     text-shadow: 2px 2px 0 #FF4B4B, 0 0 8px #FFD93D;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    margin-bottom: 0;
 }
 .gs-logo span {
     color: #FFD93D;
-    font-weight: 700;
-}
-
-.gs-nav {
-    display: flex;
-    gap: 32px;
-}
-.gs-nav a {
-    color: #222;
-    text-decoration: none;
-    font-size: 1.1em;
-    font-weight: 500;
-    padding-bottom: 4px;
-    border-bottom: 2.5px solid transparent;
-    transition: border 0.2s, color 0.2s;
-}
-.gs-nav a.active, .gs-nav a:hover {
-    color: #FF4B4B;
-    border-bottom: 2.5px solid #FFD93D;
+    font-weight: 800;
 }
 
 .gs-main-row {
     display: flex;
-    gap: 48px;
+    gap: 56px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     margin-top: 18px;
 }
 
@@ -158,6 +144,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 180px;
 }
 
 .gs-square {
@@ -190,19 +177,21 @@
     align-items: flex-start;
     justify-content: center;
     min-width: 0;
+    padding-left: 12px;
 }
 
 .gs-title {
-    font-size: 2.5em;
-    font-weight: 700;
-    color: #222;
+    font-size: 2.7em;
+    font-weight: 800;
+    color: #FF4B4B;
     margin-bottom: 8px;
+    letter-spacing: 1px;
 }
 
 .gs-desc {
     color: #888;
-    font-size: 1.1em;
-    margin-bottom: 18px;
+    font-size: 1.15em;
+    margin-bottom: 22px;
 }
 
 .gs-option-card {
@@ -213,6 +202,7 @@
     margin-bottom: 24px;
     min-width: 260px;
     text-align: center;
+    border: 1.5px solid #FFD93D;
 }
 .gs-option-card h2 {
     color: #FF4B4B;
@@ -235,9 +225,10 @@
     font-size: 1.1em;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.2s, color 0.2s;
     box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
     text-decoration: none;
+    margin-top: 8px;
 }
 .gs-btn-main:hover {
     background: #FFD93D;
@@ -253,9 +244,10 @@
     font-size: 1.1em;
     font-weight: 700;
     cursor: pointer;
-    margin-top: 8px;
+    margin-top: 18px;
     box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
     transition: background 0.2s, color 0.2s;
+    align-self: flex-start;
 }
 .gs-logout-btn:hover {
     background: #FF4B4B;
