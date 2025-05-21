@@ -270,9 +270,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // No local round increment, backend handles it
+                // Reset local state for new round
                 gameState.playerChoice = null;
                 gameState.opponentChoice = null;
+                gameState.roundComplete = false;
+                // Re-enable choice buttons
+                choiceButtons.forEach(button => {
+                    button.disabled = false;
+                    button.classList.remove('selected');
+                });
                 updateChoiceDisplay(playerChoice, null, false);
                 updateChoiceDisplay(opponentChoice, null, true);
                 updateGameState();
