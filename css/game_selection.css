@@ -446,12 +446,12 @@
     position: static;
     display: block;
     width: 100%;
-    max-width: 340px;
+    max-width: 370px;
     margin: 32px auto 0 auto;
     background: #FFD93D;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 16px 0;
     font-size: 1.1em;
     font-weight: 700;
@@ -459,6 +459,7 @@
     z-index: 20;
     box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
     transition: background 0.2s, color 0.2s;
+    text-align: center;
 }
 .gs-logout-btn-small:hover {
     background: #FFD93D;
@@ -479,9 +480,12 @@
 }
 .gs-option-card {
     margin-bottom: 38px !important;
+    max-width: 370px;
+    margin-left: auto;
+    margin-right: auto;
 }
 @media (max-width: 900px) {
-    .gs-logout-btn-small {
+    .gs-logout-btn-small, .gs-option-card {
         max-width: 98vw;
         padding: 12px 0;
         margin: 18px auto 0 auto;
