@@ -138,6 +138,11 @@ button:hover {
     margin: 10px 0;
     border-radius: 4px;
     font-size: 14px;
+    display: none;
+}
+
+.error-message:not(:empty), .success-message:not(:empty) {
+    display: block;
 }
 
 .error-message {
