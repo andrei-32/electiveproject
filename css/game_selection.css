@@ -444,14 +444,14 @@
 }
 .gs-logout-btn-small {
     position: absolute;
-    bottom: 32px;
-    right: 48px;
+    bottom: 18px;
+    right: 24px;
     background: #FFD93D;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    padding: 12px 36px;
-    font-size: 1.1em;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1em;
     font-weight: 700;
     cursor: pointer;
     z-index: 20;
@@ -480,10 +480,10 @@
 }
 @media (max-width: 900px) {
     .gs-logout-btn-small {
-        bottom: 12px;
-        right: 12px;
-        padding: 8px 18px;
-        font-size: 1em;
+        bottom: 8px;
+        right: 8px;
+        padding: 6px 12px;
+        font-size: 0.95em;
     }
     .login-right-content h2 {
         font-size: 1.2em;
