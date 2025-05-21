@@ -345,13 +345,13 @@
     flex: 0 0 320px;
 }
 .gs-logo-img {
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
     object-fit: contain;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 12px auto;
     background: #fff;
-    border-radius: 16px;
+    border-radius: 18px;
     box-shadow: 0 4px 16px rgba(255, 75, 75, 0.10);
 }
 .gs-logout-btn-top {
@@ -361,12 +361,12 @@
     background: #FFD93D;
     color: #fff;
     border: none;
-    border-radius: 6px;
-    padding: 10px 32px;
+    border-radius: 8px;
+    padding: 12px 36px;
     font-size: 1.1em;
     font-weight: 700;
     cursor: pointer;
-    z-index: 10;
+    z-index: 20;
     box-shadow: 0 2px 8px rgba(255, 75, 75, 0.10);
     transition: background 0.2s, color 0.2s;
 }
@@ -414,6 +414,18 @@
     .gs-logo-img {
         width: 60px;
         height: 60px;
+    }
+    .gs-logout-btn-top {
+        top: 12px;
+        right: 12px;
+        padding: 8px 18px;
+        font-size: 1em;
+    }
+}
+@media (max-width: 900px) {
+    .gs-logo-img {
+        width: 100px;
+        height: 100px;
     }
     .gs-logout-btn-top {
         top: 12px;
