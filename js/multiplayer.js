@@ -65,7 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 roomInfo.style.display = 'block';
                 roomLinkContainer.style.display = 'flex';
                 createRoomBtn.style.display = 'none';
-                roomLink.value = `${window.location.origin}${window.location.pathname}?room=${data.room_id}`;
+                
+                // Get the base URL by removing any existing query parameters
+                const baseUrl = window.location.href.split('?')[0];
+                // Construct the room URL
+                const roomUrl = `${baseUrl}?room=${data.room_id}`;
+                roomLink.value = roomUrl;
+                
+                // Also update the URL in the browser without reloading
+                window.history.pushState({}, '', roomUrl);
+                
                 waitingMessage.textContent = 'Waiting for opponent to join...';
                 pollForOpponent(data.room_id);
             } else {
