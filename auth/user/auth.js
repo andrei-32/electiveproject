@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = loginForm.querySelector('input[type="password"]').value;
 
         try {
-            const response = await fetch('auth/user/login.php', {
+            const response = await fetch('login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,12 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             
             if (data.success) {
-                window.location.href = 'multiplayer.html';
+                window.location.href = '../../multiplayer.html';
             } else {
-                showMessage(loginForm, data.message, 'error');
+                showMessage(loginForm, data.message, 'error', data.error_code);
+                // Clear password field on error
+                loginForm.querySelector('input[type="password"]').value = '';
             }
         } catch (error) {
-            showMessage(loginForm, 'An error occurred. Please try again.', 'error');
+            console.error('Login error:', error);
+            showMessage(loginForm, 'Network error occurred. Please try again.', 'error', 'NETWORK_ERROR');
         }
     });
 
@@ -58,12 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const confirmPassword = registerForm.querySelectorAll('input[type="password"]')[1].value;
 
         if (password !== confirmPassword) {
-            showMessage(registerForm, 'Passwords do not match', 'error');
+            showMessage(registerForm, 'Passwords do not match', 'error', 'PASSWORD_MISMATCH');
             return;
         }
 
         try {
-            const response = await fetch('auth/user/register.php', {
+            const response = await fetch('register.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,17 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (data.success) {
                 showMessage(registerForm, 'Registration successful! Please login.', 'success');
+                // Clear all fields
+                registerForm.reset();
                 // Switch to login tab
                 document.querySelector('[data-tab="login"]').click();
             } else {
-                showMessage(registerForm, data.message, 'error');
+                showMessage(registerForm, data.message, 'error', data.error_code);
+                // Clear password fields on error
+                registerForm.querySelectorAll('input[type="password"]').forEach(input => input.value = '');
             }
         } catch (error) {
-            showMessage(registerForm, 'An error occurred. Please try again.', 'error');
+            console.error('Registration error:', error);
+            showMessage(registerForm, 'Network error occurred. Please try again.', 'error', 'NETWORK_ERROR');
         }
     });
 
-    function showMessage(form, message, type) {
+    function showMessage(form, message, type, errorCode = null) {
         // Remove any existing message
         const existingMessage = form.querySelector('.error-message, .success-message');
         if (existingMessage) {
@@ -95,12 +103,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create and append new message
         const messageElement = document.createElement('div');
         messageElement.className = `${type}-message`;
-        messageElement.textContent = message;
+        
+        // Add error code if present
+        if (errorCode) {
+            messageElement.innerHTML = `
+                <div class="message-content">${message}</div>
+                <div class="error-code">Error Code: ${errorCode}</div>
+            `;
+        } else {
+            messageElement.textContent = message;
+        }
+        
         form.appendChild(messageElement);
 
-        // Remove message after 3 seconds
+        // Remove message after 5 seconds for errors, 3 seconds for success
         setTimeout(() => {
             messageElement.remove();
-        }, 3000);
+        }, type === 'error' ? 5000 : 3000);
     }
 }); 

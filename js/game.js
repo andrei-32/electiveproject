@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     rematchBtn.addEventListener('click', requestRematch);
 
     // Poll for game updates
-    setInterval(checkGameState, 1000);
+    setInterval(checkGameState, 500);
 
     // Functions
     function makeChoice(choice) {
@@ -87,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 gameState.playerChoice = choice;
                 updateGameState();
+                // Immediately check game state after making a choice
+                checkGameState();
             } else {
                 alert(data.message || 'Failed to make move');
             }
@@ -102,7 +104,17 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    const oldState = { ...gameState };
                     updateGameState(data.game_state);
+                    
+                    // If round just completed, show the result immediately
+                    if (data.game_state.round_complete && !oldState.round_complete) {
+                        const result = determineWinner(
+                            isPlayer1 ? data.game_state.player1_choice : data.game_state.player2_choice,
+                            isPlayer1 ? data.game_state.player2_choice : data.game_state.player1_choice
+                        );
+                        showResultPrompt(result);
+                    }
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -146,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Change button text and state for new round/game
+        // Show/hide appropriate buttons based on game state
         if (gameState.gameComplete) {
             newRoundBtn.style.display = 'none';
             rematchBtn.style.display = '';
@@ -154,19 +166,31 @@ document.addEventListener('DOMContentLoaded', () => {
             rematchBtn.textContent = opponentRematchRequested ? 'Opponent wants a rematch!' : (rematchRequested ? 'Waiting for opponent...' : 'Rematch');
         } else {
             rematchBtn.style.display = 'none';
-            newRoundBtn.style.display = 'none'; // Always hide the New Round button
+            newRoundBtn.style.display = gameState.roundComplete ? '' : 'none';
         }
 
-        // Update status and result prompt
+        // Update status and result messages
         if (gameState.gameComplete) {
             gameStatus.textContent = 'Game Over';
             roundResult.textContent = getGameResult();
             showResultPrompt('');
         } else if (gameState.roundComplete) {
             gameStatus.textContent = 'Round Complete';
-            roundResult.textContent = getRoundResult();
             const result = determineWinner(gameState.playerChoice, gameState.opponentChoice);
-            console.log('Round complete! Result:', result);
+            const resultMessage = getRoundResult();
+            roundResult.innerHTML = `
+                <div class="round-result-message">${resultMessage}</div>
+                <div class="round-choices">
+                    <div class="choice-result">
+                        <span class="player-name">You:</span>
+                        <span class="choice">${gameState.playerChoice ? gameState.playerChoice.charAt(0).toUpperCase() + gameState.playerChoice.slice(1) : ''}</span>
+                    </div>
+                    <div class="choice-result">
+                        <span class="player-name">Opponent:</span>
+                        <span class="choice">${gameState.opponentChoice ? gameState.opponentChoice.charAt(0).toUpperCase() + gameState.opponentChoice.slice(1) : ''}</span>
+                    </div>
+                </div>
+            `;
             showResultPrompt(result);
         } else if (gameState.playerChoice) {
             gameStatus.textContent = 'Waiting for opponent...';
@@ -174,18 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
             showResultPrompt('');
         } else {
             gameStatus.textContent = 'Make your choice';
-            roundResult.textContent = 'Waiting for choices...';
+            roundResult.textContent = 'Choose rock, paper, or scissors';
             showResultPrompt('');
-        }
-
-        // If the round is complete and not game over, show picks and result, then auto-start next round
-        if (gameState.roundComplete && !gameState.gameComplete) {
-            setTimeout(() => {
-                // Reset choices visually
-                updateChoiceDisplay(playerChoice, null, false);
-                updateChoiceDisplay(opponentChoice, null, true);
-                startNewRound();
-            }, 2000); // 2 seconds delay before next round
         }
     }
 
@@ -295,15 +309,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResultPrompt(result) {
         if (result === 'tie') {
             resultPrompt.textContent = 'Tie!';
-            resultPrompt.style.color = '#333';
+            resultPrompt.style.color = '#FFD700'; // Gold color for ties
+            resultPrompt.style.fontSize = '24px';
+            resultPrompt.style.fontWeight = 'bold';
         } else if (result === 'player') {
-            resultPrompt.textContent = 'NICE!';
-            resultPrompt.style.color = '#28a745';
+            resultPrompt.textContent = 'You Won!';
+            resultPrompt.style.color = '#28a745'; // Green for wins
+            resultPrompt.style.fontSize = '24px';
+            resultPrompt.style.fontWeight = 'bold';
         } else if (result === 'opponent') {
-            resultPrompt.textContent = 'You lost!';
-            resultPrompt.style.color = '#dc3545';
+            resultPrompt.textContent = 'You Lost!';
+            resultPrompt.style.color = '#dc3545'; // Red for losses
+            resultPrompt.style.fontSize = '24px';
+            resultPrompt.style.fontWeight = 'bold';
         } else {
             resultPrompt.textContent = '';
+            resultPrompt.style.fontSize = '';
+            resultPrompt.style.fontWeight = '';
         }
     }
 

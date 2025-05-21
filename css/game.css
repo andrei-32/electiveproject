@@ -249,4 +249,58 @@ h1, .game-header h1 {
 
 .winner {
     animation: winner 0.5s ease-in-out;
+}
+
+.round-result-message {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.round-choices {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.choice-result {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 5px 0;
+}
+
+.player-name {
+    font-weight: 500;
+    color: #666;
+}
+
+.choice {
+    font-weight: bold;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.next-round-countdown {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #666;
+    font-style: italic;
+}
+
+#resultPrompt {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 15px 0;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#roundResult {
+    text-align: center;
+    margin: 15px 0;
+    min-height: 100px;
+    transition: all 0.3s ease;
 } 
