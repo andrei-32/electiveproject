@@ -140,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.opponentScore = isPlayer1 ? state.player2_score : state.player1_score;
             }
             gameState = { ...gameState, ...state };
+            // Normalize roundComplete to always be a boolean
+            gameState.roundComplete = !!(state.round_complete || state.roundComplete);
         }
 
         // Check for game completion (first to 3 wins)
