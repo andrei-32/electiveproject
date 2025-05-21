@@ -290,4 +290,9 @@ button:hover {
     .login-right-content h2 {
         font-size: 1.3em;
     }
+}
+
+.gs-logout-btn-small {
+    bottom: 20px; /* Moves the button 20px above the bottom */
+    /* ...other styles... */
 } 
