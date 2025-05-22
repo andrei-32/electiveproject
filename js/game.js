@@ -320,8 +320,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getGameResult() {
         if (gameState.playerScore > gameState.opponentScore) {
+            // Update winstreak for win
+            fetch('auth/game/update_winstreak.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    result: 'win'
+                })
+            }).catch(error => console.error('Error updating winstreak:', error));
+            
             return 'Congratulations! You won the game!';
         } else if (gameState.opponentScore > gameState.playerScore) {
+            // Update winstreak for loss
+            fetch('auth/game/update_winstreak.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    result: 'loss'
+                })
+            }).catch(error => console.error('Error updating winstreak:', error));
+            
             return 'Game Over! Opponent won the game!';
         } else {
             return 'The game ended in a tie!';
