@@ -423,4 +423,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
     }
+});
+
+// Add this at the top of the file, after DOMContentLoaded or before any pusher usage
+const pusher = new Pusher('8b2b38eef8daa1db619b', {
+    cluster: 'ap1'
 }); 
