@@ -20,17 +20,10 @@
                 <div class="login-right-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;position:relative;width:100%;height:100%;">
                     <h2>Rock Paper Scissors</h2>
                     <p>Play against other players online</p>
-                    <div class="game-options">
-                        <div class="game-option">
-                            <h2>Multiplayer Game</h2>
-                            <p>Challenge other players in real-time matches!</p>
-                            <a href="multiplayer.html" class="button">Play Multiplayer</a>
-                        </div>
-                        <div class="game-option">
-                            <h2>Leaderboard</h2>
-                            <p>Check out the top players and their winstreaks!</p>
-                            <a href="leaderboard.html" class="button">View Leaderboard</a>
-                        </div>
+                    <div class="gs-option-card" style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(255,75,75,0.10);padding:28px 32px 24px 32px;margin-bottom:24px;min-width:260px;text-align:center;border:1.5px solid #FFD93D;">
+                        <h3 style="color:#FF4B4B;font-size:1.2em;margin-bottom:8px;font-weight:700;">Multiplayer</h3>
+                        <p style="color:#444;margin-bottom:18px;">Create a room and invite friends to play</p>
+                        <a href="multiplayer.html" class="gs-btn-main" style="display:inline-block;background:#FF4B4B;color:#fff;border:none;border-radius:8px;padding:12px 32px;font-size:1.1em;font-weight:600;cursor:pointer;transition:background 0.2s,color 0.2s;box-shadow:0 2px 8px rgba(255,75,75,0.10);text-decoration:none;margin-top:8px;">Play Multiplayer</a>
                     </div>
                     <button class="gs-logout-btn-small" onclick="window.location.href='auth/user/logout.php'">Logout</button>
                 </div>

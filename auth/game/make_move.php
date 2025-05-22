@@ -104,38 +104,6 @@ try {
             'player1_choice' => $gameState['player1_choice'],
             'player2_choice' => $gameState['player2_choice']
         ]);
-
-        // --- NEW: If game is complete (3 wins), update stats and trigger game-complete event ---
-        error_log('Checking for game completion: P1=' . $gameState['player1_score'] . ' P2=' . $gameState['player2_score']);
-        if ($gameState['player1_score'] >= 3 || $gameState['player2_score'] >= 3) {
-            $winner_id = $gameState['player1_score'] >= 3 ? $gameState['player1_id'] : $gameState['player2_id'];
-            $loser_id = $gameState['player1_score'] >= 3 ? $gameState['player2_id'] : $gameState['player1_id'];
-            $winner_score = $gameState['player1_score'] >= 3 ? $gameState['player1_score'] : $gameState['player2_score'];
-            $loser_score = $gameState['player1_score'] >= 3 ? $gameState['player2_score'] : $gameState['player1_score'];
-
-            error_log('Game complete! Winner: ' . $winner_id . ' Loser: ' . $loser_id);
-
-            // Update stats for winner
-            $stmt = $pdo->prepare("UPDATE game_stats SET wins = wins + 1, winstreak = winstreak + 1, highest_winstreak = GREATEST(highest_winstreak, winstreak + 1) WHERE user_id = ?");
-            if (!$stmt->execute([$winner_id])) {
-                error_log('Failed to update winner stats: ' . print_r($stmt->errorInfo(), true));
-            }
-
-            // Update stats for loser
-            $stmt = $pdo->prepare("UPDATE game_stats SET losses = losses + 1, winstreak = 0 WHERE user_id = ?");
-            if (!$stmt->execute([$loser_id])) {
-                error_log('Failed to update loser stats: ' . print_r($stmt->errorInfo(), true));
-            }
-
-            // Trigger Pusher event for game completion
-            $pusher->trigger("game-room-{$room_id}", 'game-complete', [
-                'winner_id' => $winner_id,
-                'loser_id' => $loser_id,
-                'winner_score' => $winner_score,
-                'loser_score' => $loser_score
-            ]);
-        }
-        // --- END NEW ---
     }
 
     echo json_encode(['success' => true]);

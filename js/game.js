@@ -28,8 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playerChoice: null,
         opponentChoice: null,
         roundComplete: false,
-        gameComplete: false,
-        statsUpdated: false
+        gameComplete: false
     };
     let isPlayer1 = null;
 
@@ -68,25 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Poll for game updates
     setInterval(checkGameState, 500);
-
-    // Assuming you have the current user's ID available as CURRENT_USER_ID
-    // and you already have Pusher JS initialized as 'pusher'
-
-    const channel = pusher.subscribe('game-room-' + roomId);
-
-    channel.bind('game-complete', function(data) {
-        if (data.winner_id == CURRENT_USER_ID) {
-            alert('You won the game! Final score: ' + data.winner_score + ' - ' + data.loser_score);
-            // Optionally update your UI here to show the win
-        } else if (data.loser_id == CURRENT_USER_ID) {
-            alert('You lost the game! Final score: ' + data.loser_score + ' - ' + data.winner_score);
-            // Optionally update your UI here to show the loss
-        } else {
-            // Spectator or error
-            alert('Game complete!');
-        }
-        // Optionally, you can also update the UI to disable further input, show rematch, etc.
-    });
 
     // Functions
     function makeChoice(choice) {
@@ -165,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Check for game completion (first to 3 wins)
-        if ((gameState.playerScore >= 3 || gameState.opponentScore >= 3) && !gameState.gameComplete) {
+        if (gameState.playerScore >= 3 || gameState.opponentScore >= 3) {
             gameState.gameComplete = true;
         }
 
@@ -412,8 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         playerChoice: null,
                         opponentChoice: null,
                         roundComplete: false,
-                        gameComplete: false,
-                        statsUpdated: false
+                        gameComplete: false
                     };
                     updateGameState();
                 } else if (data.success && data.game_state.opponent_rematch) {
@@ -423,9 +402,4 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
     }
-});
-
-// Add this at the top of the file, after DOMContentLoaded or before any pusher usage
-const pusher = new Pusher('8b2b38eef8daa1db619b', {
-    cluster: 'ap1'
 }); 
