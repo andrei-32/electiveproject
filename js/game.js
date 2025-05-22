@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         playerChoice: null,
         opponentChoice: null,
         roundComplete: false,
-        gameComplete: false
+        gameComplete: false,
+        statsUpdated: false
     };
     let isPlayer1 = null;
 
@@ -147,25 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check for game completion (first to 3 wins)
         if ((gameState.playerScore >= 3 || gameState.opponentScore >= 3) && !gameState.gameComplete) {
             gameState.gameComplete = true;
-            // Update stats when game is complete
-            fetch('auth/game/complete_game.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    room_id: roomId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.success) {
-                    console.error('Failed to update game stats:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error updating game stats:', error);
-            });
         }
 
         // Update UI
@@ -219,6 +201,36 @@ document.addEventListener('DOMContentLoaded', () => {
             gameStatus.textContent = 'Game Over';
             roundResult.textContent = getGameResult();
             showResultPrompt('');
+
+            // --- Update stats when game is over (client-side, per user) ---
+            if (!gameState.statsUpdated) {
+                gameState.statsUpdated = true; // Prevent double update
+                let resultType = null;
+                if (gameState.playerScore > gameState.opponentScore) {
+                    resultType = 'win';
+                } else if (gameState.playerScore < gameState.opponentScore) {
+                    resultType = 'loss';
+                } else {
+                    resultType = 'draw';
+                }
+                if (resultType === 'win' || resultType === 'loss') {
+                    fetch('auth/user/update_stats.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ result: resultType })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.success) {
+                            console.error('Failed to update stats:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating stats:', error);
+                    });
+                }
+            }
+            // --- End stats update ---
         } else if (gameState.roundComplete) {
             gameStatus.textContent = 'Round Complete';
             const result = determineWinner(gameState.playerChoice, gameState.opponentChoice);
@@ -411,7 +423,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         playerChoice: null,
                         opponentChoice: null,
                         roundComplete: false,
-                        gameComplete: false
+                        gameComplete: false,
+                        statsUpdated: false
                     };
                     updateGameState();
                 } else if (data.success && data.game_state.opponent_rematch) {
