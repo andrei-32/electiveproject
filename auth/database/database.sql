@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS game_stats (
     wins INT DEFAULT 0,
     losses INT DEFAULT 0,
     draws INT DEFAULT 0,
+    winstreak INT DEFAULT 0,
+    highest_winstreak INT DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
