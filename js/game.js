@@ -69,6 +69,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Poll for game updates
     setInterval(checkGameState, 500);
 
+    // Assuming you have the current user's ID available as CURRENT_USER_ID
+    // and you already have Pusher JS initialized as 'pusher'
+
+    const channel = pusher.subscribe('game-room-' + roomId);
+
+    channel.bind('game-complete', function(data) {
+        if (data.winner_id == CURRENT_USER_ID) {
+            alert('You won the game! Final score: ' + data.winner_score + ' - ' + data.loser_score);
+            // Optionally update your UI here to show the win
+        } else if (data.loser_id == CURRENT_USER_ID) {
+            alert('You lost the game! Final score: ' + data.loser_score + ' - ' + data.winner_score);
+            // Optionally update your UI here to show the loss
+        } else {
+            // Spectator or error
+            alert('Game complete!');
+        }
+        // Optionally, you can also update the UI to disable further input, show rematch, etc.
+    });
+
     // Functions
     function makeChoice(choice) {
         if (gameState.roundComplete || gameState.gameComplete || gameState.playerChoice) return;
@@ -201,37 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
             gameStatus.textContent = 'Game Over';
             roundResult.textContent = getGameResult();
             showResultPrompt('');
-
-            // --- Update stats when game is over (client-side, per user) ---
-            if (!gameState.statsUpdated) {
-                gameState.statsUpdated = true; // Prevent double update
-                let resultType = null;
-                if (gameState.playerScore > gameState.opponentScore) {
-                    resultType = 'win';
-                } else if (gameState.playerScore < gameState.opponentScore) {
-                    resultType = 'loss';
-                } else {
-                    resultType = 'draw';
-                }
-                if (resultType === 'win' || resultType === 'loss') {
-                    console.log('About to send stats update:', resultType);
-                    fetch('auth/user/update_stats.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ result: resultType })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data.success) {
-                            console.error('Failed to update stats:', data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error updating stats:', error);
-                    });
-                }
-            }
-            // --- End stats update ---
         } else if (gameState.roundComplete) {
             gameStatus.textContent = 'Round Complete';
             const result = determineWinner(gameState.playerChoice, gameState.opponentChoice);
