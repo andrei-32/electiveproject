@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         data.game_state.player1_id == data.game_state.current_user_id ||
                         data.game_state.player2_id == data.game_state.current_user_id
                     ) {
-                        window.location.href = `game.html?room=${roomIdFromUrl}`;
+                        window.location.href = `game.php?room=${roomIdFromUrl}`;
                     } else {
                         joinRoom(roomIdFromUrl);
                     }
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (data.success) {
                 // Redirect to game page
-                window.location.href = `game.html?room=${roomId}`;
+                window.location.href = `game.php?room=${roomId}`;
             } else {
                 showError(data.message || 'Failed to join room');
             }
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.success) {
                     if (data.game_state.status === 'playing') {
                         clearInterval(pollInterval);
-                        window.location.href = `game.html?room=${roomId}`;
+                        window.location.href = `game.php?room=${roomId}`;
                     }
                 } else {
                     clearInterval(pollInterval);
