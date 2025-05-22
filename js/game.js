@@ -214,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     resultType = 'draw';
                 }
                 if (resultType === 'win' || resultType === 'loss') {
+                    console.log('About to send stats update:', resultType);
                     fetch('auth/user/update_stats.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
