@@ -145,8 +145,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Check for game completion (first to 3 wins)
-        if (gameState.playerScore >= 3 || gameState.opponentScore >= 3) {
+        if ((gameState.playerScore >= 3 || gameState.opponentScore >= 3) && !gameState.gameComplete) {
             gameState.gameComplete = true;
+            // Update stats when game is complete
+            fetch('auth/game/complete_game.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    room_id: roomId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    console.error('Failed to update game stats:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating game stats:', error);
+            });
         }
 
         // Update UI
