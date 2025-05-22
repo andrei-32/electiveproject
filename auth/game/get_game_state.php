@@ -58,6 +58,76 @@ try {
         exit;
     }
 
+    // Check if game is completed (first to 3 wins)
+    $isGameComplete = ($room['player1_score'] >= 3 || $room['player2_score'] >= 3);
+    
+    // If game just completed, update winstreaks
+    if ($isGameComplete && $room['status'] !== 'completed') {
+        // Start transaction
+        $pdo->beginTransaction();
+        
+        try {
+            // Determine winner
+            $winner_id = null;
+            if ($room['player1_score'] > $room['player2_score']) {
+                $winner_id = $room['player1_id'];
+            } else if ($room['player2_score'] > $room['player1_score']) {
+                $winner_id = $room['player2_id'];
+            }
+
+            // Update winstreaks
+            if ($winner_id) {
+                // Update winner's winstreak
+                $stmt = $pdo->prepare("UPDATE users SET winstreak = winstreak + 1 WHERE id = ?");
+                $stmt->execute([$winner_id]);
+
+                // Reset loser's winstreak
+                $loser_id = ($winner_id == $room['player1_id']) ? $room['player2_id'] : $room['player1_id'];
+                $stmt = $pdo->prepare("UPDATE users SET winstreak = 0 WHERE id = ?");
+                $stmt->execute([$loser_id]);
+
+                // Update game stats for both players
+                $stmt = $pdo->prepare("
+                    INSERT INTO game_stats (user_id, wins, total_games) 
+                    VALUES (?, 1, 1)
+                    ON DUPLICATE KEY UPDATE 
+                    wins = wins + 1,
+                    total_games = total_games + 1
+                ");
+                $stmt->execute([$winner_id]);
+
+                $stmt = $pdo->prepare("
+                    INSERT INTO game_stats (user_id, losses, total_games) 
+                    VALUES (?, 1, 1)
+                    ON DUPLICATE KEY UPDATE 
+                    losses = losses + 1,
+                    total_games = total_games + 1
+                ");
+                $stmt->execute([$loser_id]);
+            } else {
+                // It's a tie, update stats for both players
+                $stmt = $pdo->prepare("
+                    INSERT INTO game_stats (user_id, ties, total_games) 
+                    VALUES (?, 1, 1)
+                    ON DUPLICATE KEY UPDATE 
+                    ties = ties + 1,
+                    total_games = total_games + 1
+                ");
+                $stmt->execute([$room['player1_id']]);
+                $stmt->execute([$room['player2_id']]);
+            }
+
+            // Mark game as completed
+            $stmt = $pdo->prepare("UPDATE rooms SET status = 'completed' WHERE room_id = ?");
+            $stmt->execute([$room_id]);
+
+            $pdo->commit();
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
+    }
+
     // If room is waiting and has two players, update status to playing
     if ($room['status'] === 'waiting' && $room['player2_id']) {
         $stmt = $pdo->prepare("UPDATE rooms SET status = 'playing' WHERE room_id = ?");

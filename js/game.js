@@ -320,46 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getGameResult() {
         if (gameState.playerScore > gameState.opponentScore) {
-            // Update game result for win
-            fetch('auth/game/update_game_result.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    room_id: roomId,
-                    result: 'win'
-                })
-            }).catch(error => console.error('Error updating game result:', error));
-            
             return 'Congratulations! You won the game!';
         } else if (gameState.opponentScore > gameState.playerScore) {
-            // Update game result for loss
-            fetch('auth/game/update_game_result.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    room_id: roomId,
-                    result: 'loss'
-                })
-            }).catch(error => console.error('Error updating game result:', error));
-            
             return 'Game Over! Opponent won the game!';
         } else {
-            // Update game result for tie
-            fetch('auth/game/update_game_result.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    room_id: roomId,
-                    result: 'tie'
-                })
-            }).catch(error => console.error('Error updating game result:', error));
-            
             return 'The game ended in a tie!';
         }
     }
