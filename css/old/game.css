@@ -1,0 +1,320 @@
+:root {
+    --white: #ffffff;
+    --primary-red: #dc3545;
+    --primary-yellow: #ffd600;
+    --light-yellow: #fff9e1;
+    --dark-red: #b71c1c;
+    --light-gray: #f8f9fa;
+    --dark-gray: #343a40;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-yellow) 100%);
+    min-height: 100vh;
+    color: var(--dark-red);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.1);
+}
+
+h1, .game-header h1 {
+    color: var(--primary-red);
+    font-size: 2.5em;
+    text-shadow: 2px 2px 0 var(--primary-yellow);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#username {
+    font-size: 1.2em;
+    color: var(--primary-red);
+}
+
+#logoutBtn {
+    padding: 8px 16px;
+    background: var(--primary-yellow);
+    color: var(--primary-red);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#logoutBtn:hover {
+    background: var(--primary-red);
+    color: var(--white);
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--primary-yellow);
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.room-info {
+    background: var(--light-yellow);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.game-area {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.player-area, .opponent-area {
+    text-align: center;
+}
+
+.choices {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.choice-btn {
+    width: 80px;
+    height: 80px;
+    padding: 0.5rem;
+    border: 2px solid var(--primary-yellow);
+    border-radius: 50%;
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.choice-btn img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.choice-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    border-color: var(--light-gray);
+    background: var(--white);
+}
+
+.choice-btn:disabled:hover {
+    transform: none;
+    border-color: var(--light-gray);
+    background: var(--white);
+}
+
+.choice-btn.selected {
+    background: var(--primary-red);
+    border-color: var(--primary-yellow);
+    transform: scale(1.1);
+}
+
+.choice-btn.selected:disabled {
+    opacity: 1;
+    background: var(--primary-red);
+    border-color: var(--primary-yellow);
+}
+
+.player-choice, .opponent-choice {
+    font-size: 3rem;
+    margin-top: 1rem;
+    min-height: 4rem;
+}
+
+.player-choice img, .opponent-choice img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.vs-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.vs {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-yellow);
+    text-shadow: 1px 1px 0 var(--primary-red);
+}
+
+.round-info {
+    text-align: center;
+    background: var(--light-yellow);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.game-result {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: var(--light-yellow);
+    border-radius: 5px;
+}
+
+.game-result h2 {
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.button {
+    background: var(--primary-red);
+    color: var(--white);
+    border: 2px solid var(--primary-yellow);
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+.button:hover:not(:disabled) {
+    background: var(--primary-yellow);
+    color: var(--primary-red);
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .game-area {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .vs-area {
+        order: -1;
+    }
+
+    .choices {
+        flex-wrap: wrap;
+    }
+}
+
+/* Animation classes */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes winner {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.winner {
+    animation: winner 0.5s ease-in-out;
+}
+
+.round-result-message {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.round-choices {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.choice-result {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 5px 0;
+}
+
+.player-name {
+    font-weight: 500;
+    color: #666;
+}
+
+.choice {
+    font-weight: bold;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.next-round-countdown {
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #666;
+    font-style: italic;
+}
+
+#resultPrompt {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 15px 0;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#roundResult {
+    text-align: center;
+    margin: 15px 0;
+    min-height: 100px;
+    transition: all 0.3s ease;
+} 
