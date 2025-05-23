@@ -1,0 +1,67 @@
+:root {
+    --primary-red: #FF4B4B;
+    --light-red: #FF6B6B;
+    --yellow: #FFD93D;
+    --white: #FFFFFF;
+    --light-gray: rgb(0,0,0,0.4);
+    --dark-gray: #333333;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Helvetica';
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+input, button {
+    font-family: 'Poppins', 'Helvetica';
+}
+
+a {
+    color: var(--primary-red);
+}
+
+.navbar-container {
+    position: sticky;
+
+    > .navbar {
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        gap: 20px;
+
+        > div { display: flex; flex-direction: row; margin: 10px; }
+
+        > .left {
+            > .logo-wrapper img {
+                width: 70px;
+                height: auto;
+            }
+        }
+    }
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url(../font/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-style: italic;
+    src: url(../font/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-weight: bold;
+    src: url(../font/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-weight: bold;
+    font-style: italic;
+    src: url(../font/Poppins-BoldItalic.ttf);
+}

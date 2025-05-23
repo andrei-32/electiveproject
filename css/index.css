@@ -1,6 +1,50 @@
-/* Index Page Styles */
-.switch-form p {
-    margin-top: 20px;
-    text-align: center;
-    color: var(--dark-gray);
-} 
+.main-container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+    background-image: url("../img/bg-main.png");
+    background-position: center;
+    background-size: cover;
+
+    > .left, .right { 
+        display: flex; 
+        flex-direction: column;
+        flex-basis: calc(100% / 2);
+    }
+
+    > .left {
+        align-items: end;
+        > .logo-wrapper {
+            width: 350px;
+            > img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
+    > .right {
+        gap: 10px;
+
+        > a {
+            width: clamp(100px, 100%, 300px);
+            border-radius: 5px;
+            background-color: var(--primary-red);
+            padding-block: 5px;
+            color: white;
+            border: black solid 2px;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0px 5px 10px 0px rgb(0, 0, 0, 0.25);
+            transition: scale 0.1s ease;
+ 
+            &:hover {
+                scale: 1.1;
+            }
+        }
+    }
+}
