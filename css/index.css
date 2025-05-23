@@ -1,3 +1,9 @@
+body {
+    background-image: url("../img/bg-main.png");
+    background-position: center;
+    background-size: cover;
+}
+
 .main-container {
     display: flex;
     flex-direction: row;
@@ -6,9 +12,6 @@
     align-items: center;
     justify-content: center;
     gap: 100px;
-    background-image: url("../img/bg-main.png");
-    background-position: center;
-    background-size: cover;
 
     > .left, .right { 
         display: flex; 
