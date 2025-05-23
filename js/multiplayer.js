@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Game elements
     const createRoomBtn = document.getElementById('createRoomBtn');
-    const roomLinkContainer = document.querySelector('.room-link-container');
     const roomLink = document.getElementById('roomLink');
     const copyLinkBtn = document.getElementById('copyLinkBtn');
-    const roomInfo = document.querySelector('.room-info');
-    const waitingMessage = document.querySelector('.waiting-message');
+    const roomInfo = document.getElementById('infoContainer');
+
+    console.log(roomInfo)
 
     // Check for room ID in URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -22,10 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (roomIdFromUrl) {
         // Show room info and start polling
         roomInfo.style.display = 'block';
-        roomLinkContainer.style.display = 'flex';
         createRoomBtn.style.display = 'none';
         roomLink.value = `${window.location.origin}${window.location.pathname}?room=${roomIdFromUrl}`;
-        waitingMessage.textContent = 'Waiting for opponent to join...';
         // Check if the user is already a player in the room
         fetch(`auth/game/get_game_state.php?room_id=${roomIdFromUrl}`)
             .then(response => response.json())
@@ -63,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 // Show room info and start polling
                 roomInfo.style.display = 'block';
-                roomLinkContainer.style.display = 'flex';
                 createRoomBtn.style.display = 'none';
                 
                 // Get the base URL by removing any existing query parameters
@@ -74,8 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Also update the URL in the browser without reloading
                 window.history.pushState({}, '', roomUrl);
-                
-                waitingMessage.textContent = 'Waiting for opponent to join...';
                 pollForOpponent(data.room_id);
             } else {
                 showError(data.message || 'Failed to create room');
