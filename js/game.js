@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (gameState.gameComplete) {
             newRoundBtn.style.display = 'none';
             newRoundBtn.disabled = true;
-            rematchBtn.style.display = '';
+            rematchBtn.style.display = 'none';
             rematchBtn.disabled = rematchRequested;
             rematchBtn.textContent = opponentRematchRequested ? 'Opponent wants a rematch!' : (rematchRequested ? 'Waiting for opponent...' : 'Rematch');
         } else if (gameState.roundComplete) {
