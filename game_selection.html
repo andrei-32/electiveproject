@@ -4,57 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Selection - Rock Paper Scissors</title>
-    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/game_selection.css">
-    <style>
-        .winstreak-container {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(255,75,75,0.10);
-            padding: 5px;
-            margin-bottom: 24px;
-            min-width: 210px;
-            text-align: center;
-            border: 1.5px solid #FFD93D;
-        }
-        .winstreak-value {
-            font-size: 1em;
-            font-weight: bold;
-            color: #000;
-            margin: 5px 0;
-        }
-        .winstreak-label {
-            color: #333;
-            font-size: 0.6em;
-            margin: 0;
-            font-weight: 500;
-        }
-    </style>
 </head>
 <body>
-    <div class="login-split-container">
-        <div class="login-left">
-            <div class="auth-header" style="align-items:center;display:flex;flex-direction:column;gap:18px;">
-                <img src="img/logo.png" alt="Logo" class="gs-logo-img no-bg" />
-                <h1>RPS BULSU</h1>
+    <div class="navbar-container">
+        <div class="navbar">
+            <div class="left">
+                <div class="logo-wrapper">
+                    <a href="/">
+                        <img src="img/rps_bulsu_logo.png" alt="RPS Bulsu Logo">
+                    </a>
+                </div>
+            </div>
+            <div class="right">
+                <button class="logout-button" onclick="window.location.href='auth/user/logout.php'">Log out</button>
             </div>
         </div>
-        <div class="login-right">
-            <div class="login-right-overlay">
-                <div class="login-right-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;position:relative;width:100%;height:100%;">
-                    <h2>Rock Paper Scissors</h2>
-                    <p>Play against other players online</p>
-                    <div class="winstreak-container">
-                        <p class="winstreak-label" style="color:black">Current Win Streak</p>
-                        <div class="winstreak-value" id="winstreakCounter">0</div>
-                    </div>
-                    <div class="gs-option-card" style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(255,75,75,0.10);padding:28px 32px 24px 32px;margin-bottom:24px;min-width:260px;text-align:center;border:1.5px solid #FFD93D;">
-                        <h3 style="color:#FF4B4B;font-size:1.2em;margin-bottom:8px;font-weight:700;">Multiplayer</h3>
-                        <p style="color:#444;margin-bottom:18px;">Create a room and invite friends to play</p>
-                        <a href="multiplayer.html" class="gs-btn-main" style="display:inline-block;background:#FF4B4B;color:#fff;border:none;border-radius:8px;padding:12px 32px;font-size:1.1em;font-weight:600;cursor:pointer;transition:background 0.2s,color 0.2s;box-shadow:0 2px 8px rgba(255,75,75,0.10);text-decoration:none;margin-top:8px;">Play Multiplayer</a>
-                    </div>
-                    <button class="gs-logout-btn-small" onclick="window.location.href='auth/user/logout.php'">Logout</button>
+    </div>
+    <div class="main-container">
+        <div class="left">
+            <div class="logo-wrapper">
+                <img src="img/rps_bulsu_mark.png" alt="RPS Bulsu Mark">
+            </div>
+        </div>
+        <div class="right">
+            <div class="controls-container">
+                <div class="winstreak-container">
+                    <span id="winstreak-counter">0</span>
+                    <p>Winstreak</p>
                 </div>
+                <a href="multiplayer.html">Play Multiplayer</a>
             </div>
         </div>
     </div>
@@ -65,12 +45,16 @@
             try {
                 const response = await fetch('auth/user/get_winstreak.php');
                 const data = await response.json();
+
+                const winstreakCounter = document.getElementById('winstreak-counter')
                 
                 if (data.success) {
-                    document.getElementById('winstreakCounter').textContent = data.winstreak;
+                    winstreakCounter.textContent = data.winstreak;
                 } else {
                     console.error('Failed to fetch winstreak:', data.message);
                 }
+
+                if (data.winstreak >= 1) winstreakCounter.classList.add("has-winstreak")
             } catch (error) {
                 console.error('Error fetching winstreak:', error);
             }

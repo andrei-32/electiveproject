@@ -4,34 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Rock Paper Scissors</title>
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/auth.css">
+    <script src="../js/auth.js" defer></script>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-header">
-            <h1>Create Account</h1>
-            <p>Join the Rock Paper Scissors game</p>
-        </div>
-        <div class="error-message" id="errorMessage"></div>
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+    <div class="navbar-container">
+        <div class="navbar">
+            <div class="left">
+                <div class="logo-wrapper">
+                    <a href="/">
+                        <img src="../img/rps_bulsu_logo.png" alt="RPS Bulsu Logo">
+                    </a>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
-            </div>
-            <button type="submit">Register</button>
-        </form>
-        <div class="switch-form">
-            <p>Already have an account? <a href="login.html">Login</a></p>
         </div>
     </div>
-    <script src="../js/auth.js"></script>
+    <div class="main-container">
+        <div class="logo-container">
+            <div class="logo-wrapper">
+                <img src="../img/rps_bulsu_mark.png" alt="">
+            </div>
+        </div>
+        <div class="form-container">
+            <div class="form-wrapper">
+                <div id="error-container"></div>
+                <form id="registerForm" class="form">
+                    <div class="field-container">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter your username here..." required>
+                    </div>
+                    <div class="field-container">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password here..." required>
+                    </div>
+                    <div class="field-container">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password..." required>
+                    </div>
+                    <button type="submit">Sign in</button>
+                </form>
+                <p class="info">Already have an account? Log in <a href="/auth/login.html">here</a>.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html> 

@@ -106,10 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add error code if present
         if (errorCode) {
-            messageElement.innerHTML = `
-                <div class="message-content">${message}</div>
-                <div class="error-code">Error Code: ${errorCode}</div>
-            `;
+            messageElement.textContent = `(${errorCode}) ${message}`;
         } else {
             messageElement.textContent = message;
         }
