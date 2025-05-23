@@ -26,19 +26,47 @@ a {
 
 .navbar-container {
     position: sticky;
+    width: 100%;
 
     > .navbar {
         display: flex;
         flex-direction: row;
+        width: 100%;
         position: absolute;
+        justify-content: space-between;
         gap: 20px;
+        pointer-events: painted;
 
-        > div { display: flex; flex-direction: row; margin: 10px; }
+        > div { 
+            display: flex; 
+            flex-direction: row; 
+            align-items: start;
+            margin: 10px;
+        }
 
         > .left {
             > .logo-wrapper img {
                 width: 70px;
                 height: auto;
+            }
+        }
+
+        button {
+            background-color: var(--primary-red);
+            border: black solid 2px;
+            padding-block: 5px;
+            padding-inline: 10px;
+            color: white;
+            border-radius: 2.5px;
+            cursor: pointer;
+            transition: scale 0.1s ease;
+
+            &:hover {
+                scale: 1.05;
+            }
+
+            &:active {
+                scale: 0.95;
             }
         }
     }
@@ -66,4 +94,9 @@ a {
     font-weight: bold;
     font-style: italic;
     src: url(../font/Poppins-BoldItalic.ttf);
+}
+
+@font-face {
+    font-family: "m6x11";
+    src: url(../font/m6x11.ttf);
 }
