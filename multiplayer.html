@@ -4,34 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors - Multiplayer</title>
-    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/multiplayer.css">
+    <script src="js/multiplayer.js" defer></script>
 </head>
 <body>
-    <div class="auth-container">
-        <a href="game_selection.html" class="back-btn">Back</a>
-        <div class="auth-header">
-            <h1>Rock Paper Scissors</h1>
-            <p>Do you have a dispute with your friend?</p>
-            <p>Resolve it online!</p>
-        </div>
-        <div class="room-controls">
-            <div class="room-section">
-                <p>Press "Create Room" to play with a friend.</p>
-                <p>Send them the link to connect.</p>
-                <button id="createRoomBtn" class="button">Create Room</button>
+    <div class="navbar-container">
+        <div class="navbar">
+            <div class="left">
+                <div class="logo-wrapper">
+                    <a href="/">
+                        <img src="img/rps_bulsu_logo.png" alt="RPS Bulsu Logo">
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="room-info" style="display:none;">
-            <h3>Room Information</h3>
-            <p>Share this link with your friend:</p>
-            <div class="room-link-container">
-                <input type="text" id="roomLink" readonly>
-                <button id="copyLinkBtn" class="button">Copy Link</button>
+            <div class="right">
+                <button class="logout-button" onclick="window.location.href='auth/user/logout.php'">Log out</button>
             </div>
-            <p class="waiting-message">Waiting for opponent to join...</p>
         </div>
     </div>
-    <script src="js/multiplayer.js"></script>
+    <div class="main-container">
+        <div class="left">
+            <div class="logo-wrapper">
+                <img src="img/rps_bulsu_mark.png" alt="RPS Bulsu Mark">
+            </div>
+        </div>
+        <div class="right">
+            <div class="controls-container" style="display: none;">
+                <button id="createRoomBtn">Create Room</button>
+                <a href="/game_selection.html">Back</a>
+            </div>
+            <div class="info-container">
+                <p>Share this link with your friend to play:</p>
+                <div class="field-container">
+                    <input type="text" id="roomLink" readonly>
+                    <button id="copyLinkBtn">Copy Link</button>
+                </div>
+                <div class="waiting-message-container">
+                    <p class="waiting-message">Waiting for opponent to join</p>
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html> 
