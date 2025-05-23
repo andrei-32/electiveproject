@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     // Game elements
+    const controlsContainer = document.getElementById('controlsContainer')
     const createRoomBtn = document.getElementById('createRoomBtn');
     const roomLink = document.getElementById('roomLink');
     const copyLinkBtn = document.getElementById('copyLinkBtn');
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (roomIdFromUrl) {
         // Show room info and start polling
         roomInfo.style.display = 'block';
-        createRoomBtn.style.display = 'none';
+        controlsContainer.style.display = 'none';
         roomLink.value = `${window.location.origin}${window.location.pathname}?room=${roomIdFromUrl}`;
         // Check if the user is already a player in the room
         fetch(`auth/game/get_game_state.php?room_id=${roomIdFromUrl}`)
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 // Show room info and start polling
                 roomInfo.style.display = 'block';
-                createRoomBtn.style.display = 'none';
+                controlsContainer.style.display = 'none';
                 
                 // Get the base URL by removing any existing query parameters
                 const baseUrl = window.location.href.split('?')[0];
