@@ -1,0 +1,124 @@
+@font-face {
+    font-family: "Poppins";
+    src: url(../assets/fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-style: italic;
+    src: url(../assets/fonts/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-weight: bold;
+    src: url(../assets/fonts/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-weight: bold;
+    font-style: italic;
+    src: url(../assets/fonts/Poppins-BoldItalic.ttf);
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    src: url(../assets/fonts/RobotoMono-VariableFont_wght.ttf);
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    font-style: italic;
+    src: url(../assets/fonts/RobotoMono-Italic-VariableFont_wght.ttf);
+}
+
+:root {
+    --main-light: #dfe5ec;
+    --secondary-light: #d2dae4;
+    --tertiary-light: #27252c;
+    --text-main-light: #000;
+
+    --main-dark: #1a1d30;
+    --secondary-dark: #151827;
+    --tertiary-dark: #131114;
+    --text-main-dark: #fff;
+
+    --accent: #a262ff;
+    --outline: #1a1d30;
+
+    color-scheme: light dark;
+
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Poppins";
+    font-size: 1em;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: light-dark(var(--secondary-light), var(--secondary-dark));
+    color: light-dark(var(--text-main-light), -var(-text-main-dark));
+
+    :first-child {
+        margin-left: 10px;
+    }
+
+    a, a:visited, a:active {
+        color: light-dark(var(--text-main-light), var(--text-main-dark));
+        margin-block: 10px;
+        margin-right: 50px;
+        text-decoration: none;
+    }
+
+    a > img {
+        height: auto;
+        width: 50px;
+        border-radius: 5px;
+    }
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    background-color: light-dark(var(--tertiary-light), var(--tertiary-dark));
+    color: var(--text-main-dark);
+    min-height: 30vmin;
+    padding: 25px 25px 50px 25px;
+
+    p {
+        margin-bottom: 0;
+    }
+
+    a, a:visited, a:active {
+        color: var(--text-main-dark);
+        margin-top: 30px;
+        text-decoration: none;
+    }
+
+    .links-container {
+        display: flex;
+        align-items: center;
+
+> * {
+            margin-right: 30px;
+        }
+    }
+
+    .links-container > a > img {
+        height: auto;
+        width: 50px;
+    }
+}
+
