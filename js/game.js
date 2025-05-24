@@ -8,9 +8,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const roomIdSpan = document.getElementById('roomId');
     const gameStatus = document.getElementById('gameStatus');
-    const choiceButtons = document.querySelectorAll('.choice-btn');
-    const playerChoice = document.getElementById('playerChoice');
-    const opponentChoice = document.getElementById('opponentChoice');
+    const choiceButtons = [
+        document.getElementById('#rockButton'),
+        document.getElementById('#paperButton'),
+        document.getElementById('#scissorsButton'),
+    ];
+    const opponentChoices = [
+        document.getElementById('#rockChoice'),
+        document.getElementById('#paperChoice'),
+        document.getElementById('#scissorsChoice')
+    ]
+    // const playerChoice = document.getElementById('playerChoice');
+    // const opponentChoice = document.getElementById('opponentChoice');
     const roundResult = document.getElementById('roundResult');
     const currentRound = document.getElementById('currentRound');
     const playerScore = document.getElementById('playerScore');
@@ -32,26 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let isPlayer1 = null;
 
-    // Add rematch state
-    let rematchRequested = false;
-    let opponentRematchRequested = false;
-
-    // Add a rematch button
-    const rematchBtn = document.createElement('button');
-    rematchBtn.id = 'rematchBtn';
-    rematchBtn.className = 'button';
-    rematchBtn.textContent = 'Rematch';
-    rematchBtn.style.display = 'none';
-    document.querySelector('.game-controls').appendChild(rematchBtn);
-
     // Initialize game
     roomIdSpan.textContent = roomId;
     updateGameState();
 
     // Event Listeners
-    choiceButtons.forEach(button => {
+    for (let button of choiceButtons) {
         button.addEventListener('click', () => makeChoice(button.dataset.choice));
-    });
+    }
 
     newRoundBtn.addEventListener('click', () => {
         if (gameState.gameComplete) {
@@ -62,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     leaveGameBtn.addEventListener('click', leaveGame);
-
-    rematchBtn.addEventListener('click', requestRematch);
 
     // Poll for game updates
     setInterval(checkGameState, 500);
@@ -87,14 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 gameState.playerChoice = choice;
                 // Disable all choice buttons after making a choice
-                choiceButtons.forEach(button => {
+                for (let button of choiceButtons) {
                     button.disabled = true;
                     if (button.dataset.choice === choice) {
                         button.classList.add('selected');
                     } else {
                         button.classList.remove('selected');
                     }
-                });
+                }
                 updateGameState();
                 // Immediately check game state after making a choice
                 checkGameState();
@@ -155,12 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
         opponentScore.textContent = gameState.opponentScore;
         winsNeeded.textContent = '3'; // First to 3 wins
 
-        // Update choices
-        updateChoiceDisplay(playerChoice, gameState.playerChoice, false);
-        updateChoiceDisplay(opponentChoice, gameState.opponentChoice, true);
-
         // Update buttons
-        choiceButtons.forEach(button => {
+        for (let button of choiceButtons) {
             // Disable buttons if:
             // 1. Round is complete
             // 2. Game is complete
@@ -176,23 +167,30 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 button.classList.toggle('selected', button.dataset.choice === gameState.playerChoice);
             }
-        });
+        }
+
+        for (let choice of opponentChoices) {
+            const shouldDisable = gameState.roundComplete || 
+                                gameState.gameComplete || 
+                                gameState.opponentChoice !== null;
+            
+            if (shouldDisable) {
+                choice.classList.remove('selected');
+            } else {
+                choice.classList.toggle('selected', choice.dataset.choice === gameState.opponentChoice);
+            }
+        }
 
         // Show/hide appropriate buttons based on game state
         if (gameState.gameComplete) {
             newRoundBtn.style.display = 'none';
             newRoundBtn.disabled = true;
-            rematchBtn.style.display = 'none';
-            rematchBtn.disabled = rematchRequested;
-            rematchBtn.textContent = opponentRematchRequested ? 'Opponent wants a rematch!' : (rematchRequested ? 'Waiting for opponent...' : 'Rematch');
         } else if (gameState.roundComplete) {
             newRoundBtn.style.display = '';
             newRoundBtn.disabled = false;
-            rematchBtn.style.display = 'none';
         } else {
             newRoundBtn.style.display = 'none';
             newRoundBtn.disabled = true;
-            rematchBtn.style.display = 'none';
         }
 
         // Update status and result messages
@@ -203,20 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (gameState.roundComplete) {
             gameStatus.textContent = 'Round Complete';
             const result = determineWinner(gameState.playerChoice, gameState.opponentChoice);
-            const resultMessage = getRoundResult();
-            roundResult.innerHTML = `
-                <div class="round-result-message">${resultMessage}</div>
-                <div class="round-choices">
-                    <div class="choice-result">
-                        <span class="player-name">You:</span>
-                        <span class="choice">${gameState.playerChoice ? gameState.playerChoice.charAt(0).toUpperCase() + gameState.playerChoice.slice(1) : ''}</span>
-                    </div>
-                    <div class="choice-result">
-                        <span class="player-name">Opponent:</span>
-                        <span class="choice">${gameState.opponentChoice ? gameState.opponentChoice.charAt(0).toUpperCase() + gameState.opponentChoice.slice(1) : ''}</span>
-                    </div>
-                </div>
-            `;
+            roundResult.textContent = getRoundResult();
             showResultPrompt(result);
         } else if (gameState.playerChoice) {
             gameStatus.textContent = 'Waiting for opponent...';
@@ -229,40 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         console.log('gameState:', gameState);
-    }
-
-    function updateChoiceDisplay(element, choice, isOpponent = false) {
-        const img = element.querySelector('img');
-        let messageElem = element.querySelector('.opponent-pick-message');
-        if (isOpponent) {
-            if (!messageElem) {
-                messageElem = document.createElement('div');
-                messageElem.className = 'opponent-pick-message';
-                element.appendChild(messageElem);
-            }
-            if (gameState.roundComplete && choice) {
-                img.src = `images/game/${choice}.png`;
-                img.alt = choice.charAt(0).toUpperCase() + choice.slice(1);
-                messageElem.textContent = '';
-            } else if (choice) {
-                img.src = 'images/game/checkmark.png';
-                img.alt = 'Picked';
-                messageElem.textContent = 'Opponent made a pick';
-            } else {
-                img.src = 'images/game/questionmark.png';
-                img.alt = '?';
-                messageElem.textContent = '';
-            }
-        } else {
-            if (messageElem) messageElem.textContent = '';
-            if (choice) {
-                img.src = `images/game/${choice}.png`;
-                img.alt = choice.charAt(0).toUpperCase() + choice.slice(1);
-            } else {
-                img.src = 'images/game/questionmark.png';
-                img.alt = '?';
-            }
-        }
     }
 
     function startNewRound() {
@@ -285,10 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.opponentChoice = null;
                 gameState.roundComplete = false;
                 // Re-enable choice buttons
-                choiceButtons.forEach(button => {
+                for (let button of choiceButtons) {
                     button.disabled = false;
                     button.classList.remove('selected');
-                });
+                }
                 updateChoiceDisplay(playerChoice, null, false);
                 updateChoiceDisplay(opponentChoice, null, true);
                 updateGameState();
@@ -343,63 +294,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResultPrompt(result) {
         if (result === 'tie') {
             resultPrompt.textContent = 'Tie!';
-            resultPrompt.style.color = '#FFD700'; // Gold color for ties
-            resultPrompt.style.fontSize = '24px';
-            resultPrompt.style.fontWeight = 'bold';
         } else if (result === 'player') {
             resultPrompt.textContent = 'You Won!';
-            resultPrompt.style.color = '#28a745'; // Green for wins
-            resultPrompt.style.fontSize = '24px';
-            resultPrompt.style.fontWeight = 'bold';
+            resultPrompt.classList.add("win")
         } else if (result === 'opponent') {
             resultPrompt.textContent = 'You Lost!';
-            resultPrompt.style.color = '#dc3545'; // Red for losses
-            resultPrompt.style.fontSize = '24px';
-            resultPrompt.style.fontWeight = 'bold';
+            resultPrompt.classList.add("lose")
         } else {
             resultPrompt.textContent = '';
-            resultPrompt.style.fontSize = '';
-            resultPrompt.style.fontWeight = '';
         }
-    }
-
-    function requestRematch() {
-        rematchRequested = true;
-        rematchBtn.disabled = true;
-        rematchBtn.textContent = 'Waiting for opponent...';
-        fetch('auth/game/rematch.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ room_id: roomId })
-        });
-    }
-
-    function checkRematchState() {
-        if (!gameState.gameComplete) return;
-        fetch(`auth/game/get_game_state.php?room_id=${roomId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.game_state.rematch) {
-                    // Reset everything for a new game
-                    rematchRequested = false;
-                    opponentRematchRequested = false;
-                    rematchBtn.style.display = 'none';
-                    newRoundBtn.style.display = '';
-                    gameState = {
-                        round: 1,
-                        playerScore: 0,
-                        opponentScore: 0,
-                        playerChoice: null,
-                        opponentChoice: null,
-                        roundComplete: false,
-                        gameComplete: false
-                    };
-                    updateGameState();
-                } else if (data.success && data.game_state.opponent_rematch) {
-                    opponentRematchRequested = true;
-                    rematchBtn.textContent = 'Opponent wants a rematch!';
-                    rematchBtn.disabled = false;
-                }
-            });
     }
 }); 
