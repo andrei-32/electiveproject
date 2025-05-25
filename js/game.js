@@ -180,29 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (gameState.gameComplete) {
             newRoundBtn.style.display = 'none';
             newRoundBtn.disabled = true;
-
-            for (let button of choiceButtons) {
-                button.classList.remove("selected")
-                console.log('cleared selected class on all buttons')
-            }
-
-            for (let choice of opponentChoices) {
-                choice.classList.remove("selected")
-                console.log('cleared selected class on all opponent choices')
-            }
         } else if (gameState.roundComplete) {
             newRoundBtn.style.display = '';
             newRoundBtn.disabled = false;
-
-            for (let button of choiceButtons) {
-                button.classList.remove("selected")
-                console.log('cleared selected class on all buttons')
-            }
-
-            for (let choice of opponentChoices) {
-                choice.classList.remove("selected")
-                console.log('cleared selected class on all opponent choices')
-            }
         } else {
             newRoundBtn.style.display = 'none';
             newRoundBtn.disabled = true;
@@ -217,6 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
             gameStatus.textContent = 'Round Complete';
             const result = determineWinner(gameState.playerChoice, gameState.opponentChoice);
             roundResult.textContent = getRoundResult();
+            for (let button of choiceButtons) {
+                button.classList.remove("selected")
+                console.log('cleared selected class on all buttons')
+            }
+
+            for (let choice of opponentChoices) {
+                choice.classList.remove("selected")
+                console.log('cleared selected class on all opponent choices')
+            }
             showResultPrompt(result);
         } else if (gameState.playerChoice) {
             gameStatus.textContent = 'Waiting for opponent...';
