@@ -153,7 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 gameState.playerChoice !== null;
             
             button.disabled = shouldDisable;
-            button.classList.add('selected', button.dataset.choice === gameState.playerChoice);
+            if (button.dataset.choice === gameState.playerChoice) {
+                button.classList.add('selected');
+            }
             console.log(`this button = ${button.dataset.choice} ... player choice = ${gameState.playerChoice}`)
 
             if (button.dataset.choice === gameState.playerChoice) {
@@ -162,7 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         for (let choice of opponentChoices) {
-            choice.classList.add('selected', choice.dataset.choice === gameState.opponentChoice);
+            if (choice.dataset.choice === gameState.opponentChoice) {
+                choice.classList.add('selected');
+            }
             console.log(`this choice = ${choice.dataset.choice} ... opponent choice = ${gameState.opponentChoice}`)
 
             if (choice.dataset.choice === gameState.opponentChoice) {
