@@ -153,23 +153,20 @@ document.addEventListener('DOMContentLoaded', () => {
                                 gameState.playerChoice !== null;
             
             button.disabled = shouldDisable;
-            
-            if (shouldDisable) {
-                button.classList.remove('selected');
-            } else {
-                button.classList.toggle('selected', button.dataset.choice === gameState.playerChoice);
+            button.classList.add('selected', button.dataset.choice === gameState.playerChoice);
+            console.log(`this button = ${button.dataset.choice} ... player choice = ${gameState.playerChoice}`)
+
+            if (button.dataset.choice === gameState.playerChoice) {
+                console.log(`added selected class to ${button.dataset.choice} button`)
             }
         }
 
         for (let choice of opponentChoices) {
-            const shouldDisable = gameState.roundComplete || 
-                                gameState.gameComplete || 
-                                gameState.opponentChoice !== null;
-            
-            if (shouldDisable) {
-                choice.classList.remove('selected');
-            } else {
-                choice.classList.toggle('selected', choice.dataset.choice === gameState.opponentChoice);
+            choice.classList.add('selected', choice.dataset.choice === gameState.opponentChoice);
+            console.log(`this choice = ${choice.dataset.choice} ... opponent choice = ${gameState.opponentChoice}`)
+
+            if (choice.dataset.choice === gameState.opponentChoice) {
+                console.log(`added selected class to ${choice.dataset.choice} opponent choice`)
             }
         }
 
@@ -231,6 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (let button of choiceButtons) {
                     button.disabled = false;
                     button.classList.remove('selected');
+                    console.log('cleared selected class on all buttons')
+                }
+
+                for (let choice of opponentChoices) { 
+                    choice.classList.remove('selected')
+                    console.log('cleared selected class on all opponent choices')
                 }
                 updateGameState();
                 showResultPrompt('');
