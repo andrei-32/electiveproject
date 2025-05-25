@@ -191,15 +191,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Show/hide appropriate buttons based on game state
-        if (gameState.gameComplete) {
-            newRoundBtn.style.display = 'none';
-            newRoundBtn.disabled = true;
-        } else if (gameState.roundComplete) {
-            newRoundBtn.style.display = '';
-            newRoundBtn.disabled = false;
-        } else {
-            newRoundBtn.style.display = 'none';
-            newRoundBtn.disabled = true;
+        if (isPlayer1) {
+            if (gameState.gameComplete) {
+                newRoundBtn.style.display = 'none';
+                newRoundBtn.disabled = true;
+            } else if (gameState.roundComplete) {
+                newRoundBtn.style.display = '';
+                newRoundBtn.disabled = false;
+            } else {
+                newRoundBtn.style.display = 'none';
+                newRoundBtn.disabled = true;
+            }
         }
 
         // Update status and result messages

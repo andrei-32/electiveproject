@@ -14,15 +14,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const roomLink = document.getElementById('roomLink');
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const roomInfo = document.getElementById('infoContainer');
+    const joinRoomLink = document.getElementById('joinRoomLink')
+    const joinRoomButton = document.getElementById('joinRoomBtn')
 
-    console.log(roomInfo)
+    joinRoomButton.addEventListener('click', (e) => {
+        let roomCode = joinRoomLink.value
+        if (!roomCode) {
+            joinRoomLink.setCustomValidity("Please put a room code/link.")
+            joinRoomLink.reportValidity();
+            return
+        }
+
+        if (roomCode.startsWith('http')) {
+            roomCode = new URL(roomCode).searchParams.get("room");
+            if (!roomCode) {
+                joinRoomLink.setCustomValidity("Link has no room code.")
+                joinRoomLink.reportValidity();
+                return
+            }
+        }
+
+        if (!/^[A-Za-z0-9]{6}$/.test(roomCode)) {
+            joinRoomLink.setCustomValidity("Invalid room code.")
+            joinRoomLink.reportValidity();
+            return
+        }
+
+        window.location.href = `/multiplayer.html?room=${roomCode.toUpperCase()}`
+    })
 
     // Check for room ID in URL
     const urlParams = new URLSearchParams(window.location.search);
     const roomIdFromUrl = urlParams.get('room');
     if (roomIdFromUrl) {
         // Show room info and start polling
-        roomInfo.style.display = 'block';
+        roomInfo.style.display = 'flex';
         controlsContainer.style.display = 'none';
         roomLink.value = `${window.location.origin}${window.location.pathname}?room=${roomIdFromUrl}`;
         // Check if the user is already a player in the room

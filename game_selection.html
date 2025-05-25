@@ -19,6 +19,28 @@
                 </div>
             </div>
             <div class="right">
+                <div class="how-to-play-container">
+                    <button class="how-to-play-button" id="howToPlayBtn">How to play</button>
+                    <div class="how-to-play hidden" id="howToPlay">
+                        <div>
+                            <p>Click the play multiplayer button below.</p>
+                            <div>Play Multiplayer</div>
+                        </div>
+                        <hr>
+                        <div>
+                            <p>To create a room, simply click the create room button.</p>
+                            <div>Create Room</div>
+                        </div>
+                        <hr>
+                        <div>
+                            <p>To join a room, paste in the link or code your opponent sent you and click join room.</p>
+                            <div class="field-container">
+                                <input type="text" placeholder="Put room code or link here." disabled>
+                                <button disabled>Join room</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button class="logout-button" onclick="window.location.href='auth/user/logout.php'">Log out</button>
             </div>
         </div>
@@ -41,6 +63,11 @@
     </div>
 
     <script>
+        const howToPlayModal = document.getElementById("howToPlay")
+        const howToPlayButton = document.getElementById("howToPlayBtn")
+        howToPlayButton.addEventListener('click', () => {
+            howToPlayModal.classList.toggle("hidden")
+        })
         // Function to fetch and update winstreak
         async function updateWinstreak() {
             try {

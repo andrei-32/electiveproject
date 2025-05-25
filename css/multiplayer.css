@@ -49,45 +49,6 @@ body {
                 font-size: 0.9em;
             }
 
-            .field-container {
-                display: flex;
-                gap: 10px;
-                width: 100%;
-                flex-direction: row;
-
-                input {
-                    position: relative;
-                    border-radius: 5px;
-                    border: none;
-                    outline: var(--primary-red) solid 1px;
-                    margin: 0;
-                    padding-block: 10px;
-                    padding-inline: 10px;
-                    transition: all 0.1s ease;
-                    flex-basis: 70%;
-                }
-
-                button {
-                    width: 100%;
-                    padding-block: 5px;
-                    background-color: var(--primary-red);
-                    border-radius: 5px;
-                    border: none;
-                    color: white;
-                    cursor: pointer;
-                    transition: scale 0.1s ease;
-                    flex-basis: 30%;
-
-                    &:hover {
-                        scale: 1.05;
-                    }
-
-                    &:active {
-                        scale: 0.95;
-                    }
-                }
-            }
-
             .waiting-message-container {
                 display: flex;
                 flex-direction: row;
@@ -95,6 +56,63 @@ body {
                 > span:nth-of-type(1) { animation: jump 1s 0s infinite; }
                 > span:nth-of-type(2) { animation: jump 1s 0.1s infinite; }
                 > span:nth-of-type(3) { animation: jump 1s 0.2s infinite; }
+            }
+        }
+
+        .field-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            flex-direction: row;
+
+            input {
+                position: relative;
+                border-radius: 5px;
+                border: none;
+                outline: var(--primary-red) solid 1px;
+                margin: 0;
+                padding-block: 10px;
+                padding-inline: 10px;
+                transition: all 0.1s ease;
+                flex-basis: 70%;
+            }
+
+            button {
+                width: 100%;
+                padding-block: 5px;
+                background-color: var(--primary-red);
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+                transition: scale 0.1s ease;
+                flex-basis: 30%;
+                &:hover {
+                    scale: 1.05;
+                }
+                &:active {
+                    scale: 0.95;
+                }
+            }
+        }
+
+        .controls-container {
+            .field-container {
+                background-color: var(--primary-red);
+                border: black solid 2px;
+                padding: 5px;
+                border-radius: 5px;
+                box-shadow: 0px 10px 10px 0px rgb(0, 0, 0, 0.25);
+
+                input, button {
+                    border-radius: 2px;
+                }
+
+                button {
+                    background-color: white;
+                    color: var(--primary-red);
+                    font-weight: bold;
+                }
             }
         }
 
