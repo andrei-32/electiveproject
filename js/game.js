@@ -82,14 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 gameState.playerChoice = choice;
                 // Disable all choice buttons after making a choice
-                for (let button of choiceButtons) {
-                    button.disabled = true;
-                    if (button.dataset.choice === choice) {
-                        button.classList.add('selected');
-                    } else {
-                        button.classList.remove('selected');
-                    }
-                }
                 updateGameState();
                 // Immediately check game state after making a choice
                 checkGameState();
@@ -240,8 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     button.disabled = false;
                     button.classList.remove('selected');
                 }
-                updateChoiceDisplay(playerChoice, null, false);
-                updateChoiceDisplay(opponentChoice, null, true);
                 updateGameState();
                 showResultPrompt('');
             } else {
