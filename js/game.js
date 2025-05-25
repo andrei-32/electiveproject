@@ -163,14 +163,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        for (let choice of opponentChoices) {
-            if (choice.dataset.choice === gameState.opponentChoice) {
-                choice.classList.add('selected');
-            }
-            console.log(`this choice = ${choice.dataset.choice} ... opponent choice = ${gameState.opponentChoice}`)
+        if (gameState.playerChoice !== null) {
+            for (let choice of opponentChoices) {
+                if (choice.dataset.choice === gameState.opponentChoice && gameState.playerChoice !== null) {
+                    choice.classList.add('selected');
+                }
+                console.log(`this choice = ${choice.dataset.choice} ... opponent choice = ${gameState.opponentChoice}`)
 
-            if (choice.dataset.choice === gameState.opponentChoice) {
-                console.log(`added selected class to ${choice.dataset.choice} opponent choice`)
+                if (choice.dataset.choice === gameState.opponentChoice) {
+                    console.log(`added selected class to ${choice.dataset.choice} opponent choice`)
+                }
             }
         }
 
@@ -178,9 +180,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (gameState.gameComplete) {
             newRoundBtn.style.display = 'none';
             newRoundBtn.disabled = true;
+
+            for (let button of choiceButtons) {
+                button.classList.remove("selected")
+                console.log('cleared selected class on all buttons')
+            }
+
+            for (let choice of opponentChoices) {
+                choice.classList.remove("selected")
+                console.log('cleared selected class on all opponent choices')
+            }
         } else if (gameState.roundComplete) {
             newRoundBtn.style.display = '';
             newRoundBtn.disabled = false;
+
+            for (let button of choiceButtons) {
+                button.classList.remove("selected")
+                console.log('cleared selected class on all buttons')
+            }
+
+            for (let choice of opponentChoices) {
+                choice.classList.remove("selected")
+                console.log('cleared selected class on all opponent choices')
+            }
         } else {
             newRoundBtn.style.display = 'none';
             newRoundBtn.disabled = true;
@@ -228,17 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.playerChoice = null;
                 gameState.opponentChoice = null;
                 gameState.roundComplete = false;
-                // Re-enable choice buttons
-                for (let button of choiceButtons) {
-                    button.disabled = false;
-                    button.classList.remove('selected');
-                    console.log('cleared selected class on all buttons')
-                }
-
-                for (let choice of opponentChoices) { 
-                    choice.classList.remove('selected')
-                    console.log('cleared selected class on all opponent choices')
-                }
                 updateGameState();
                 showResultPrompt('');
             } else {
