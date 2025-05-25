@@ -18,20 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const joinRoomButton = document.getElementById('joinRoomBtn')
 
     joinRoomButton.addEventListener('click', (e) => {
-        let roomCode = joinRoomLink.value
+        let roomCode = joinRoomLink.value.trim().toUpperCase();
         if (!roomCode) {
-            joinRoomLink.setCustomValidity("Please put a room code/link.")
+            joinRoomLink.setCustomValidity("Please enter a room code.")
             joinRoomLink.reportValidity();
             return
-        }
-
-        if (roomCode.startsWith('http')) {
-            roomCode = new URL(roomCode).searchParams.get("room");
-            if (!roomCode) {
-                joinRoomLink.setCustomValidity("Link has no room code.")
-                joinRoomLink.reportValidity();
-                return
-            }
         }
 
         if (!/^[A-Za-z0-9]{6}$/.test(roomCode)) {
@@ -40,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return
         }
 
-        window.location.href = `/multiplayer.html?room=${roomCode.toUpperCase()}`
+        window.location.href = `/multiplayer.html?room=${roomCode}`
     })
 
     // Check for room ID in URL
@@ -50,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show room info and start polling
         roomInfo.style.display = 'flex';
         controlsContainer.style.display = 'none';
-        roomLink.value = `${window.location.origin}${window.location.pathname}?room=${roomIdFromUrl}`;
+        roomLink.value = roomIdFromUrl;
         // Check if the user is already a player in the room
         fetch(`auth/game/get_game_state.php?room_id=${roomIdFromUrl}`)
             .then(response => response.json())
@@ -72,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create room
     createRoomBtn.addEventListener('click', createRoom);
-    copyLinkBtn.addEventListener('click', copyRoomLink);
+    copyLinkBtn.addEventListener('click', copyRoomCode);
 
     async function createRoom() {
         try {
@@ -90,14 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 roomInfo.style.display = 'block';
                 controlsContainer.style.display = 'none';
                 
-                // Get the base URL by removing any existing query parameters
-                const baseUrl = window.location.href.split('?')[0];
-                // Construct the room URL
-                const roomUrl = `${baseUrl}?room=${data.room_id}`;
-                roomLink.value = roomUrl;
+                // Just show the room code
+                roomLink.value = data.room_id;
                 
-                // Also update the URL in the browser without reloading
-                window.history.pushState({}, '', roomUrl);
+                // Update the URL in the browser without reloading
+                window.history.pushState({}, '', `?room=${data.room_id}`);
                 pollForOpponent(data.room_id);
             } else {
                 showError(data.message || 'Failed to create room');
@@ -156,12 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    function copyRoomLink() {
+    function copyRoomCode() {
         roomLink.select();
         document.execCommand('copy');
         copyLinkBtn.textContent = 'Copied!';
         setTimeout(() => {
-            copyLinkBtn.textContent = 'Copy Link';
+            copyLinkBtn.textContent = 'Copy Code';
         }, 2000);
     }
 
