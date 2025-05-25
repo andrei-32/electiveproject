@@ -42,6 +42,7 @@ a {
             flex-direction: row; 
             align-items: start;
             margin: 10px;
+            gap: 5px;
         }
 
         > .left {

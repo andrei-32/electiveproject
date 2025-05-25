@@ -5,6 +5,7 @@ body {
 }
 
 .main-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100vw;
@@ -29,6 +30,7 @@ body {
         font-size: 2em;
         paint-order: stroke fill;
         -webkit-text-stroke: black 4px;
+        position: relative;
 
         > .choices-container {
             display: flex;
@@ -38,16 +40,18 @@ body {
             img {
                 width: 100px;
                 height: auto;
+                image-rendering: pixelated;
             }
 
             .choice {
-                margin-top: 10px;
                 opacity: 0.5;
                 transition: all 0.1s cubic-bezier(.15,0,.2,2.06);
                 filter: drop-shadow(0px 10px 10px rgb(0, 0, 0, 0.25));
+                rotate: 180deg;
+                transform: translate(0px, 60px);
 
                 &.selected {
-                    transform: scale(1.1) translate(0, 20px);
+                    transform: scale(1.2) translate(0, 10px);
                     opacity: 1;
                 }
             }
@@ -55,20 +59,20 @@ body {
             .choice-button {
                 background-color: transparent;
                 border: none;
-                margin-bottom: 5px;
                 transition: all 0.1s cubic-bezier(.15,0,.2,2.06);
                 filter: drop-shadow(0px 10px 10px rgb(0, 0, 0, 0.25));
+                transform: translate(0px, 60px);
 
                 &:hover:not(:disabled) {
-                    transform: scale(1.05) translate(0, -10px);
+                    transform: translate(0, 20px);
                 }
 
                 &:active:not(:disabled) {
-                    transform: scale(1.05) translate(0, 5px);
+                    transform: translate(0, 30px);
                 }
 
                 &.selected {
-                    transform: scale(1.1) translate(0, -20px);
+                    transform: scale(1.2) translate(0, 10px);
                 }
 
                 &.disabled {
@@ -76,17 +80,27 @@ body {
                 }
             }
         }
+
+        .info-container {
+            position: absolute;
+        }
     }
 
     > .opponent-container { 
         justify-content: start; 
-        .info-container > p {
-            color: color-mix(in srgb, var(--opponent-color) 90%, white 10%) 
+        .info-container {
+            top: 80%;
+            left: 50%;
+            translate: -50% -50%;
+            color: color-mix(in srgb, var(--opponent-color) 90%, white 10%);
         }
     }
     > .player-container { 
         justify-content: end;
-        .info-container > p {
+        .info-container {
+            top: 20%;
+            left: 50%;
+            translate: -50% -50%;
             color: color-mix(in srgb, var(--player-color) 90%, white 10%) 
         }
     }
