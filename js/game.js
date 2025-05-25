@@ -111,6 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         );
                         showResultPrompt(result);
                     }
+
+                    // new round started
+                    if (data.game_state.round !== oldState.round) {
+                        console.log("new round started")
+                        for (let button of choiceButtons) {
+                            button.classList.remove("selected")
+                            console.log('cleared selected class on all buttons')
+                        }
+                    
+                        for (let choice of opponentChoices) {
+                            choice.classList.remove("selected")
+                            console.log('cleared selected class on all opponent choices')
+                        }
+                    }
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -197,15 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
             gameStatus.textContent = 'Round Complete';
             const result = determineWinner(gameState.playerChoice, gameState.opponentChoice);
             roundResult.textContent = getRoundResult();
-            for (let button of choiceButtons) {
-                button.classList.remove("selected")
-                console.log('cleared selected class on all buttons')
-            }
-
-            for (let choice of opponentChoices) {
-                choice.classList.remove("selected")
-                console.log('cleared selected class on all opponent choices')
-            }
             showResultPrompt(result);
         } else if (gameState.playerChoice) {
             gameStatus.textContent = 'Waiting for opponent...';
