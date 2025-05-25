@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const roomIdSpan = document.getElementById('roomId');
     const gameStatus = document.getElementById('gameStatus');
     const choiceButtons = [
-        document.getElementById('#rockButton'),
-        document.getElementById('#paperButton'),
-        document.getElementById('#scissorsButton'),
+        document.getElementById('rockButton'),
+        document.getElementById('paperButton'),
+        document.getElementById('scissorsButton'),
     ];
     const opponentChoices = [
-        document.getElementById('#rockChoice'),
-        document.getElementById('#paperChoice'),
-        document.getElementById('#scissorsChoice')
+        document.getElementById('rockChoice'),
+        document.getElementById('paperChoice'),
+        document.getElementById('scissorsChoice')
     ]
     // const playerChoice = document.getElementById('playerChoice');
     // const opponentChoice = document.getElementById('opponentChoice');
