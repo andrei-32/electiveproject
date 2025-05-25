@@ -159,6 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const shouldDisable = gameState.roundComplete || 
                                 gameState.gameComplete || 
                                 gameState.playerChoice !== null;
+
+            console.log(button)
             
             button.disabled = shouldDisable;
             
