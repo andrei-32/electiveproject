@@ -216,6 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
             gameStatus.textContent = 'Waiting for opponent...';
             roundResult.textContent = 'Waiting for opponent\'s choice...';
             showResultPrompt('');
+        } else if (gameState.opponentChoice) {
+            gameStatus.textContent = 'Opponent picked.';
+            roundResult.textContent = 'Opponent has picked.';
+            showResultPrompt('');
         } else {
             gameStatus.textContent = 'Make your choice';
             roundResult.textContent = 'Choose rock, paper, or scissors';
